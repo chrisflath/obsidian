@@ -64,9 +64,27 @@ R-squared = 0.082
 2. `share_good_top5` is the strongest predictor (-12.8 cp/SD)
 3. Complexity effects are **additive**, not multiplicative (interaction is null)
 
+## FEN Cache
+
+Both analysis pipelines use in-memory FEN caching to skip duplicate positions across games. Identical board states (same FEN) reuse cached Stockfish results instead of re-analyzing.
+
+**Cache hit rates (from ~600K analyzed positions):**
+
+| Move | Duplicate % | Notes |
+|------|-------------|-------|
+| 1 | 82.5% | Standard games share starting position |
+| 2 | 50.8% | Common replies (1.e4, 1.d4) |
+| 3 | 36.4% | |
+| 4 | 22.4% | |
+| 5+ | 2-12% | Positions diverge |
+| **Overall** | **22.4%** | 76.5K saved engine calls |
+
+- `complexity_analyzer.py`: `self.fen_cache` on `ComplexityAnalyzer` (parallel-aware, checked before submitting to workers)
+- `stockfish_runner.py`: `self.fen_cache` on `StockfishRunner.analyze_position()` (cross-game deduplication)
+
 ## Progress
 
-~236K of ~1.5M positions analyzed. Running with `--workers 5 --threads 2`.
+~605K of ~3.9M positions analyzed (~15.5%). Running with `--workers 5 --threads 2`. ETA ~55 hours at ~59K positions/hr.
 
 ## Running
 

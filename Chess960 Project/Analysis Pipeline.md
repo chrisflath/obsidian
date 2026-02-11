@@ -22,8 +22,10 @@ uv add <package>
 ### Analysis (Stockfish)
 | Script | Purpose |
 |--------|---------|
-| `analysis/stockfish_runner.py` | Core Stockfish wrapper, game analysis |
-| `analysis/complexity_analyzer.py` | MultiPV complexity (see [[Complexity Analysis]]) |
+| `analysis/stockfish_runner.py` | Core Stockfish wrapper, game analysis (FEN cache) |
+| `analysis/complexity_analyzer.py` | MultiPV complexity (FEN cache, see [[Complexity Analysis]]) |
+
+Both pipelines use cross-game FEN caching — identical positions are analyzed once and reused. See [[Complexity Analysis#FEN Cache]] for hit rates.
 
 ```bash
 # Game analysis
