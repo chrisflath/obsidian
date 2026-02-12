@@ -112,17 +112,92 @@ The severity reversal confirms: when positions are unambiguous (one best move), 
 
 960 errors are **more costly** (+24.6% CPL/error). The error rate barely changes (+1.7pp), but each error is larger.
 
+## Prospect Theory: The S-Curve
+
+The format gap follows a **prospect-theory value function** when plotted against position evaluation (distance from reference point).
+
+> [!important] Reference point = balanced position (eval ≈ 0)
+> Templates define "normal." Near the reference point, templates guide optimization. Far from it, pure calculation dominates and templates become irrelevant — or even harmful.
+
+### The Value Function (format gap by eval)
+
+```
+Eval range       Gap      Visual
+(-500, -200]    -10.8     █████|          ← 960 BETTER
+(-200, -100]     -3.2         █|
+(-100, -50]      +4.2          |██
+(-50, -25]       +9.1          |████
+(-25, 0]        +12.1          |██████    ← PEAK
+(0, 25]         +11.4          |█████
+(25, 50]        +13.8          |██████    ← PEAK
+(50, 100]       +10.2          |█████
+(100, 200]       +0.0          |          ← VANISHES
+(200, 500]      -11.0     █████|          ← 960 BETTER
+```
+
+### Formal Test: Quadratic Interaction (S-curve)
+
+`log(CPL+1) ~ is_960 × eval_z + is_960 × eval_z² + elo_z + move_z` (N=887K, clustered SEs)
+
+| Coefficient | Estimate | SE | p |
+|-------------|----------|-----|---|
+| is_960 | +0.433 | 0.018 | *** |
+| is_960 × eval_z | **-0.024** | 0.004 | *** |
+| is_960 × eval_z² | **-0.052** | 0.003 | *** |
+
+Both the linear and quadratic interactions are negative and highly significant:
+- **Linear** (−0.024): format gap shrinks as position becomes more extreme
+- **Quadratic** (−0.052): gap narrows *faster* at extremes (concavity) — the S-curve
+
+### Domain Split
+
+| Domain | Format gap | Catastrophe Δ | Perfect Δ |
+|--------|-----------|---------------|-----------|
+| Winning (eval > 50) | +3.7 | -0.47pp | +0.14pp |
+| Equal (±50) | **+13.6** | +0.07pp | **-1.77pp** |
+| Losing (eval < -50) | **-2.8** | **-1.13pp** | **+1.35pp** |
+
+When losing, 960 players: fewer catastrophes, MORE perfect moves, LOWER CPL. Without templates, they're in pure calculation mode — no template interference.
+
+### Variance by Domain
+
+| Domain | Std CPL var | 960 CPL var | Ratio |
+|--------|------------|------------|-------|
+| Winning | 7,212 | 6,288 | 0.87 |
+| Equal | 2,494 | **3,211** | **1.29** |
+| Losing | 10,389 | 8,674 | 0.84 |
+
+At the reference point (equal), 960 has **higher** variance — consistent with ambiguity about the right move. At extremes, 960 has **lower** variance — more consistent play when templates aren't relevant.
+
+### Time by Domain
+
+| Domain | Std time | 960 time | 960/Std |
+|--------|----------|----------|---------|
+| Losing | 9.4s | 10.5s | 1.12x |
+| Equal | 9.4s | 10.4s | 1.11x |
+| Winning | 8.5s | 10.2s | **1.21x** |
+
+960 players over-think most when WINNING — consistent with loss aversion: they have something to protect and don't trust their move choice without template guidance.
+
+## Prospect Theory Mapping
+
+| PT Concept | Chess Analog | Evidence |
+|------------|-------------|----------|
+| **Reference point** | Balanced position (eval ≈ 0) | Format gap peaks at reference, vanishes at extremes |
+| **Loss aversion** (λ > 1) | Catastrophe avoidance > optimization pursuit | Catastrophe rate flat, perfect rate falls; gap is −1.77pp vs +0.07pp |
+| **Diminishing sensitivity** | Gap shrinks with |eval| | is_960 × eval_z² = −0.052*** |
+| **Reflection effect** | 960 better when losing | Gap reverses to −2.8 in loss domain |
+| **Certainty effect** | Templates provide pseudo-certainty | Without templates → uncertainty → satisficing |
+| **Anti-calibration** | Overweighted uncertainty at reference | Over-thinking easy positions ([[Time Mechanism]]) |
+
 ## Mechanism Story: Loss Aversion Under Uncertainty
 
-Unfamiliar territory triggers **loss aversion** — players optimize for downside protection at the cost of optimization.
-
-1. **Catastrophes are tactical** — detected by calculation, not templates. Format-invariant (1.7% both formats, p=0.60).
-2. Without templates, positions *feel* uncertain → players shift to **satisficing** (pick a safe-looking move) rather than **optimizing** (find the best move).
-3. This defensive posture succeeds at avoiding disasters but sacrifices discrimination between good and optimal moves → more mid-range errors.
-4. In demanding positions (one best move), the loss-averse posture actually *helps* — 960 players are MORE vigilant (-2.5 CPL).
-5. The format gap is entirely driven by **forgiving positions** where templates would have guided optimization but loss aversion leads to satisficing.
-6. Links to **anti-calibration** ([[Time Mechanism]]): players spend more time on easy positions because those *feel* uncertain without a template, even though objectively there's little risk.
-7. Each 960 error is more costly (+24.6% CPL/error), not that there are more errors (+1.7pp) — consistent with satisficing: when the chosen move isn't optimal, the gap to best is larger.
+1. **Templates define the reference point** — "I know what to do here" = equilibrium. Without templates, every position feels like it could be a loss.
+2. Near the reference (balanced positions), templates help **optimize** among reasonable moves. Without them, loss aversion triggers satisficing → format gap peaks (+13.8 CPL).
+3. **Diminishing sensitivity**: as positions become more extreme, templates lose relevance. What matters is pure calculation — and 960 players have no template interference.
+4. **Reversal at extremes**: heavily winning/losing positions produce a *negative* format gap (−11 CPL). Templates may actually hurt here (overconfidence in "known" positions, pattern-matching that doesn't apply).
+5. **Catastrophes are format-invariant** — asymmetric sensitivity means downside protection is preserved even without templates. The cost is entirely in missed optimization.
+6. Links to **anti-calibration** ([[Time Mechanism]]): positions *feel* uncertain without templates → over-thinking easy positions. Time over-allocation is largest when winning (1.21x) — the domain with the most to protect.
 
 ## Scripts
 
@@ -130,4 +205,4 @@ Unfamiliar territory triggers **loss aversion** — players optimize for downsid
 
 See also: [[Time Mechanism]], [[Complexity Analysis]], [[Key Results]]
 
-#chess960 #mechanism #errors #risk
+#chess960 #mechanism #errors #risk #prospect-theory
