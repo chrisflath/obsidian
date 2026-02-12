@@ -88,6 +88,21 @@ From [[Error Contagion]]:
 - **ELO gradient**: 2100+ players show strongest contagion (3.7x multiplier in std) and largest capitalization gap (-5.3pp in 960)
 - Templates are a **consistency tool** for routine positions, not an exploitation tool for crises
 
+## Result 12: Cross-Platform Replication (Chess.com Elite, Preliminary)
+
+From [[Freestyle Friday Data]] and [[Gelbach Decomposition]]:
+
+Using Freestyle Friday (960 blitz 3+1) vs Titled Tuesday (standard blitz 3+1), N=510 games, 29 paired players:
+
+- **Format gap 4.75x larger** in elite blitz (+0.738 log-scale vs +0.155 Lichess rapid) — time pressure amplifies template loss
+- **Gelbach decomposition structure replicates**: 39.7% explained (vs 35.7%), 60.3% residual (vs 64.3%)
+- **Queen and bishops** remain top contributors on both platforms
+- **Template distance gradient** replicates: r=0.131 (p=0.002) within 960
+- **96% of paired players** perform worse in 960 (paired t=10.22, p<.0001)
+
+> [!warning] Preliminary
+> Based on ~3% of chess.com data. Full sample (~15K games) will take ~80 hours of engine analysis. Individual piece-level estimates (especially king, rooks) are noisy at N=29 players.
+
 ## Publication Figures
 
 1. **Fig 1** (`fig1_hero.pdf`): Three-panel hero — (a) phase bars, (b) displacement gradient with scatter, (c) Gelbach waterfall

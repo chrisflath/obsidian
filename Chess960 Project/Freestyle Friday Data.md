@@ -140,22 +140,52 @@ Prioritize games where **both players are in the FF pool** — this gives contro
 > [!warning] Separate from Lichess
 > Chess.com data is stored in a dedicated `db/chesscom.db` — completely separate from the main Lichess database (`db/chess960.db`). Rating pools, time controls, and player populations differ between platforms. Analysis scripts should never mix cross-platform data without explicit harmonization.
 
+## Engine Analysis Pipeline
+
+Chess.com games are analyzed by a standalone pipeline (`analysis/chesscom_analyzer.py`) that reuses the Lichess `StockfishRunner` and a **shared persistent FEN cache** (`db/fen_cache.db`).
+
+### Shared FEN Cache
+
+The FEN cache is a SQLite database shared across Lichess and chess.com analysis:
+- `fen_eval`: basic position evals (~4.75M entries, backfilled from Lichess analysis)
+- `fen_complexity`: MultiPV results (~816K entries, backfilled from position_complexity)
+- Common opening positions (first 3-4 moves) appear in thousands of games — massive cache savings
+- Cache survives process restarts (persistent, WAL mode)
+
+### Analysis Prioritization
+
+- **Paired players first**: players with games in both formats analyzed before unpaired
+- **Player-level interleaving**: analyze BOTH formats for player A before moving to player B
+- **Standard capped at 100/player**: 65,595 excess standard games marked as 'skipped', keeping 15,910 total
+- Query uses `ROW_NUMBER()` windowing for 10 games/player/format per batch
+
+### Preliminary Results (N=510, 29 paired players)
+
+**Format gap**: +0.738 log(CPL+1), ~4.75x the Lichess rapid gap. Time pressure amplifies template loss.
+
+**Gelbach decomposition replicates**: 39.7% explained (vs 35.7% Lichess), 60.3% residual (vs 64.3%).
+Queen and bishops are top contributors on both platforms. See [[Gelbach Decomposition]] for full table.
+
+**Template distance gradient**: r=0.131 (p=0.002) — graded transfer replicates in independent sample/platform.
+
+**Within-player**: 96% of paired players worse in 960, paired t=10.22 (p<.0001).
+
 ## Status
 
 Discovery complete: **44 tournaments, 200 players, 8636 participation records**.
-Game fetching in progress. Script: `scraper/chesscom_collector.py`
+Game collection complete. Engine analysis in progress (~360 games/hr, ~80 hours for full sample).
 
 ```bash
-# Check status
-uv run python -m scraper.chesscom_collector --status
+# Run chess.com engine analysis
+uv run python -m analysis.chesscom_analyzer --batch 50 --threads 2
 
-# Fetch games (long-running)
-uv run python -m scraper.chesscom_collector --fetch-games
+# Check collection status
+uv run python -m scraper.chesscom_collector --status
 
 # Extract format-specific ratings from in-game data
 uv run python -m scraper.chesscom_collector --extract-ratings
 ```
 
-See also: [[Error Composition]], [[Research Design]], [[Key Results]]
+See also: [[Error Composition]], [[Research Design]], [[Key Results]], [[Gelbach Decomposition]]
 
 #chess960 #data #chesscom #freestyle-friday
