@@ -260,6 +260,113 @@ Reproduces the same pattern: gap is negative in demanding positions, peaks in fo
 > [!note] What we are NOT claiming
 > We do not claim to observe subjective value functions or to estimate λ. The claim is behavioral: template availability modulates reference-point clarity, which mediates perceived stakes and the satisficing–optimizing tradeoff. The S-curve, domain asymmetry, and variance patterns are consistent with this framing and provide a parsimonious account of multiple findings.
 
+## Error Classification with Eval-Sign Flip
+
+Refined chess.com-style classification that distinguishes **missed optimization** (no eval flip — you stayed ahead but left value on the table) from **game-changing errors** (eval flip — you handed over the advantage). N = 1,006,481 moves (moves 1–12, rapid, paired players).
+
+### Rate Breakdown
+
+| Category | Standard | Chess960 | Δ |
+|----------|----------|----------|---|
+| **Good moves** | | | |
+| Best (CPL = 0) | 14.1% | 12.6% | -1.5pp |
+| Good (0 < CPL < 50) | 62.5% | 53.8% | -8.6pp |
+| **Inaccuracy (50–100)** | **12.9%** | **18.9%** | **+6.0pp** |
+| └ No eval flip | 9.0% | 13.1% | +4.1pp |
+| └ Eval flip (→ losing) | 3.9% | 5.8% | +1.8pp |
+| **Mistake (100–300)** | **8.7%** | **12.9%** | **+4.2pp** |
+| └ No eval flip | 5.7% | 7.4% | +1.7pp |
+| └ Eval flip (→ losing) | 3.1% | 5.5% | +2.5pp |
+| **Blunder (300+)** | **1.8%** | **1.7%** | **-0.1pp** |
+| └ No eval flip | 0.9% | 0.7% | -0.1pp |
+| └ Eval flip (→ losing) | 0.9% | 1.0% | +0.1pp |
+
+**Totals:**
+
+| | Standard | Chess960 | Δ |
+|---|---|---|---|
+| All errors (CPL ≥ 50) | 23.4% | 33.5% | +10.1pp |
+| └ No eval flip | 15.5% | 21.2% | +5.7pp |
+| └ Eval flip | 7.9% | 12.3% | +4.4pp |
+| Flip share of errors | 33.7% | 36.7% | |
+
+### CPL Gap Decomposition by Flip Type
+
+Total gap = +10.6 CPL
+
+| Category | Contribution | Share |
+|----------|-------------|-------|
+| Mistake (eval flip) | +3.89 | **36.6%** |
+| Inaccuracy (no flip) | +2.94 | **27.7%** |
+| Mistake (no flip) | +2.33 | 21.9% |
+| Inaccuracy (eval flip) | +1.39 | 13.1% |
+| Blunder (no flip) | -0.49 | -4.6% |
+| Blunder (eval flip) | +0.12 | 1.1% |
+| Good + Best | +0.44 | 4.2% |
+
+> [!important] Largest single contributor = mistakes that flip the eval (36.6%)
+> These are 100-300 CPL errors where the player was doing fine but played something that handed the advantage to the opponent. Templates provide the "right idea" to avoid crossing into losing territory.
+
+> [!note] No-flip errors (inaccuracy + mistake) together ≈ 50%
+> The satisficing signature: you don't lose the game, you just leave value on the table.
+
+### Are 960 Positions Objectively Sharper?
+
+**No.** The positions themselves are equally complex; the "sharpness" is player-generated.
+
+| Metric | Standard | Chess960 |
+|--------|----------|----------|
+| complexity_1v2 (gap best→2nd) | 33.7 | 33.5 |
+| share_good (top5 within 50cp) | 0.726 | 0.697 |
+| |eval| < 50 (balanced positions) | 52.6% | 38.7% |
+| |eval| < 100 | 73.5% | 62.0% |
+| |eval| > 200 (decisive) | 12.0% | 16.7% |
+| Eval std dev | 155 | 171 |
+
+960 positions are objectively NOT sharper (complexity_1v2 virtually identical), but 960 *games* spend less time in balanced territory because early errors push the eval around.
+
+**Conditional flip rate at same eval** (given an error occurred):
+
+| Eval band | Std flip% | 960 flip% | Δ |
+|-----------|-----------|-----------|---|
+| +0 to +50 | 100.0% | 100.0% | 0.0pp |
+| +50 to +100 | 69.0% | 73.9% | +4.9pp |
+| +100 to +200 | 29.9% | 30.5% | +0.6pp |
+| +200 to +400 | 17.4% | 12.6% | -4.7pp |
+
+At the same starting eval, flip rates are barely different. 960 doesn't create sharper positions — it creates more *errors*, and those errors cascade.
+
+**Flip rate by position complexity** (controlling for objective difficulty):
+
+| share_good bin | Std flip | 960 flip | Δ | Std err% | 960 err% | Δ err |
+|---------------|----------|----------|---|----------|----------|-------|
+| 0–0.25 (hard) | 38.0% | 39.6% | +1.5pp | 37.2% | 38.7% | +1.5pp |
+| 0.25–0.5 | 34.2% | 37.1% | +3.0pp | 38.8% | 41.4% | +2.6pp |
+| 0.5–0.75 | 32.8% | 37.1% | +4.3pp | 36.2% | 42.6% | +6.4pp |
+| 0.75–1.0 (easy) | 35.2% | 40.1% | +4.9pp | 20.2% | 28.8% | +8.6pp |
+
+The gap is largest in **easy** positions — exactly where templates matter most. Without templates, players navigate normal positions as if they were sharp.
+
+### Eval Sign Changes Per Game
+
+How volatile are games? Number of times eval crosses zero during moves 1-12 (N=84,694 games):
+
+| | Standard | Chess960 | t-test |
+|---|---|---|---|
+| Mean sign changes | 1.40 | 1.68 | t=-25.1, p<10^-137 |
+| 0 sign changes | 33.9% | 26.4% | |
+| ≥2 sign changes | 39.6% | 47.9% | |
+
+**With ±50cp buffer** (meaningful flips only):
+
+| | Standard | Chess960 | t-test |
+|---|---|---|---|
+| Mean sign changes | 0.37 | 0.56 | t=-34.8, p<10^-261 |
+| ≥1 meaningful flip | 28.6% | 40.9% | |
+| ≥2 meaningful flips | 6.5% | 12.3% | |
+
+960 games are significantly more volatile — nearly twice as many games have ≥2 meaningful eval flips. This is the cascade effect: early template-less errors create imbalanced positions that invite further errors.
+
 ## Mechanism Story
 
 1. **Reference-point clarity**: In standard chess, templates provide a salient reference ("I am on-book / plan-consistent"). Small deviations are behaviorally meaningful. In 960, the reference is ambiguous — players face higher uncertainty about what "par" looks like.
