@@ -12,9 +12,10 @@ Chess.com's **Freestyle Friday** is a weekly Chess960 tournament for titled and 
 | Structure | Swiss, 11 rounds |
 | Frequency | Weekly (Fridays) |
 | Participation | Open (not invite-only), but de facto tilted toward titled players |
-| Period found | Jan 2025 – Oct 2025 (19 tournaments via Hikaru's history) |
+| Period found | 44 tournaments discovered (via Hikaru, Magnus, Naroditsky histories) |
 | Peak field | 476 players |
-| Estimated total games | ~23K across all tournaments |
+| Players discovered | 200 unique across all tournaments |
+| Estimated total games | ~23K+ across all tournaments |
 
 ## Why This Complements the Main Study
 
@@ -25,7 +26,7 @@ The main dataset is Lichess rapid (10+0, 15+10). Two potential elite complements
 | N games | ~23K | ~100-200 |
 | Clock data | Yes | No |
 | Time control | 3+1 blitz | 15+10 rapid / classical |
-| Rating | Blitz (pooled, no separate 960) | FIDE (no 960 rating) |
+| Rating | Blitz (format-specific in-game) | FIDE (no 960 rating) |
 | Player level | Titled + strong amateurs | Super-GMs only |
 | Within-player std games | Fetchable from archive | Separate databases |
 | Replicable analyses | Error composition, S-curve, anti-calibration | Barely powered |
@@ -64,13 +65,13 @@ Chess.com API asks for reasonable usage. Include `User-Agent` header. Expect ~1 
 
 ### Collection Strategy
 
-1. Pull player lists from all 19 tournament endpoints
+1. Pull player lists from all tournament round endpoints (not just registered — actual participants from game data)
 2. Deduplicate players across tournaments
-3. Fetch monthly game archives, filter for `rules: chess960` + tournament tag
-4. Also fetch standard blitz games for within-player pairing
-5. Store in same DB schema (or parallel table with `source='chess.com'`)
+3. Fetch monthly game archives for each player, keep ALL blitz games (both standard and chess960)
+4. Extract format-specific ratings from in-game data (median across games)
+5. Store in separate `db/chesscom.db` (not mixed with Lichess data)
 
-Estimated API calls: ~500 players × ~12 months × 2 (960 + std) ≈ 12K calls ≈ 3-4 hours at 1/sec.
+Estimated API calls: ~200 players × ~12 months ≈ 2400 archive calls ≈ 40 min at 1/sec.
 
 ## Data Properties
 
@@ -85,9 +86,14 @@ Estimated API calls: ~500 players × ~12 months × 2 (960 + std) ≈ 12K calls �
 ### NOT Available
 
 - No engine evaluation in PGN (need to run Stockfish ourselves)
-- No separate Chess960 rating (pooled blitz rating)
 - No `accuracies` field in API response (despite chess.com having game review)
-- Player standard blitz games need separate collection
+
+### In-Game Ratings Are Format-Specific
+
+> [!important] Two-rating decomposition IS possible
+> The chess.com `/stats` endpoint does NOT expose a live 960 blitz rating. However, in-game ratings (`WhiteElo`/`BlackElo` in PGN) ARE format-specific. Example: Magnus Carlsen shows 2896 in 960 blitz games vs 3301 in standard blitz games. The `/pub/leaderboards` endpoint confirms a `live_blitz960` category exists.
+>
+> We extract per-player median ratings from in-game data, separately for standard and chess960 format. This enables θ3 (prep capital interaction) analysis.
 
 ### Sample PGN
 
@@ -106,11 +112,10 @@ Estimated API calls: ~500 players × ~12 months × 2 (960 + std) ≈ 12K calls �
 
 ## Limitations for Our Design
 
-1. **No two-rating decomposition**: chess.com pools 960 into regular blitz rating → θ3 analysis impossible
-2. **No prep rent**: can't compute R_std − R_960 without separate ratings
-3. **Blitz vs rapid**: different cognitive regime — but mitigated by expertise argument
-4. **Selection**: Freestyle Friday players self-select into 960 → may have smaller format gaps (experienced 960 players)
-5. **No Lichess overlap guarantee**: can't link chess.com accounts to Lichess accounts for cross-platform validation
+1. **Blitz vs rapid**: different cognitive regime — but mitigated by expertise argument (see above)
+2. **Selection**: Freestyle Friday players self-select into 960 → may have smaller format gaps (experienced 960 players)
+3. **No Lichess overlap guarantee**: can't link chess.com accounts to Lichess accounts for cross-platform validation
+4. **Rating pools differ**: chess.com blitz ratings are NOT comparable to Lichess rapid ratings — data must be stored and analyzed separately
 
 ## What CAN Be Replicated
 
@@ -120,10 +125,29 @@ Estimated API calls: ~500 players × ~12 months × 2 (960 + std) ≈ 12K calls �
 - Template distance gradient (starting FEN → piece displacement)
 - Within-960 graded transfer
 - Complexity analysis (need to run Stockfish on the positions)
+- **Two-rating decomposition (θ3)** — since in-game ratings are format-specific
+- **Prep rent (R_std − R_960)** — derivable from median in-game ratings
+
+## Data Storage
+
+> [!warning] Separate from Lichess
+> Chess.com data is stored in a dedicated `db/chesscom.db` — completely separate from the main Lichess database (`db/chess960.db`). Rating pools, time controls, and player populations differ between platforms. Analysis scripts should never mix cross-platform data without explicit harmonization.
 
 ## Status
 
-Not yet collected. See [[Analysis Pipeline]] for collection scripts when built.
+Discovery complete: **44 tournaments, 200 players, 8636 participation records**.
+Game fetching pending. Script: `scraper/chesscom_collector.py`
+
+```bash
+# Check status
+uv run python -m scraper.chesscom_collector --status
+
+# Fetch games (long-running)
+uv run python -m scraper.chesscom_collector --fetch-games
+
+# Extract format-specific ratings from in-game data
+uv run python -m scraper.chesscom_collector --extract-ratings
+```
 
 See also: [[Error Composition]], [[Research Design]], [[Key Results]]
 
