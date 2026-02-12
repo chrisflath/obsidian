@@ -274,6 +274,6 @@ Reproduces the same pattern: gap is negative in demanding positions, peaks in fo
 
 - Analysis run inline (difficulty_rubric.py data loading + custom queries)
 
-See also: [[Time Mechanism]], [[Complexity Analysis]], [[Key Results]]
+See also: [[Reference-Point Clarity]], [[Time Mechanism]], [[Complexity Analysis]], [[Key Results]], [[Freestyle Friday Data]]
 
 #chess960 #mechanism #errors #risk #prospect-theory

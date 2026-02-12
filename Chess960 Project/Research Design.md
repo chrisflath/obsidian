@@ -45,6 +45,15 @@ Where:
 3. **Same platform** (Lichess) — identical interface, engine, rating system
 4. **Opening phase only** (moves 1-12) — where templates are most relevant
 
+## Data Sources
+
+| Source | Format | Time control | Players | N games | Status |
+|--------|--------|-------------|---------|---------|--------|
+| **Lichess** (primary) | Rapid | 10+0, 15+10 | 345 paired | ~70K | Complete |
+| **Freestyle Friday** (complement) | Blitz | 3+1 | ~500 titled | ~23K | Planned |
+
+See [[Freestyle Friday Data]] for the elite blitz complement.
+
 See also: [[Key Variables]], [[Sample & Inclusion Rules]], [[Two-Rating Decomposition]]
 
 #chess960 #methods

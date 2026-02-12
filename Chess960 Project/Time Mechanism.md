@@ -190,6 +190,6 @@ KQ_WEIGHT = 0.01492  # K-Q same color (p=0.001)
 - `analysis/difficulty_rubric.py` — Progressive model building, complexity models, move-level rubric, stratified analyses, time mechanism tightening
 - `scripts/panel_b_dev.py` — Panel B development (template distance gradient figure)
 
-See also: [[Complexity Analysis]], [[Key Results]], [[Analysis Pipeline]]
+See also: [[Reference-Point Clarity]], [[Error Composition]], [[Complexity Analysis]], [[Key Results]], [[Analysis Pipeline]]
 
 #chess960 #mechanism #time #complexity

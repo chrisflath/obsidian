@@ -46,6 +46,24 @@ From [[Robustness Checks]]:
 - Experience cohorts: gap = ~0.14 across all cohorts, no convergence
 - FE vs RE: equivalent specifications
 
+## Result 7: Error Composition & Reference-Point Clarity
+
+From [[Error Composition]] and [[Reference-Point Clarity]]:
+- **Catastrophe rate is format-invariant** (1.7% both formats, p=0.60)
+- Gap comes from mid-range errors: mistakes (41%) + blunders (58%)
+- Gap concentrated in **forgiving positions** (sg≥0.5): +8.5 CPL; demanding: −2.5 CPL
+- **S-curve**: format gap peaks near parity (|eval|≈25cp), vanishes at |eval|≈200cp, reverses at extremes
+- Piecewise spline: is_960 × sp_50 = −0.444***, replicates with depth-free proxy (legal_z²= −0.035***)
+- Interpretation: templates modulate reference-point clarity → satisficing vs optimizing tradeoff
+
+## Result 8: Anti-Calibration
+
+From [[Time Mechanism]]:
+- Within-player corr(share_good, log_time): Standard r=−0.035 (correct), Chess960 r=+0.046 (**inverted**)
+- Paired t = −11.8, p < .0001
+- 960 players over-think easy positions, under-think hard ones
+- Time over-allocation largest when winning (1.21x)
+
 ## Publication Figures
 
 1. **Fig 1** (`fig1_hero.pdf`): Three-panel hero — (a) phase bars, (b) displacement gradient with scatter, (c) Gelbach waterfall
