@@ -64,15 +64,29 @@ From [[Time Mechanism]]:
 - 960 players over-think easy positions, under-think hard ones
 - Time over-allocation largest when winning (1.21x)
 
-## Result 9: Error Cascade Dynamics
+## Result 9: Eval-Sign Classification
 
-From [[Error Composition]]:
+From [[Eval-Sign Classification]]:
+- **Mistakes with eval flip** (player crosses from not-losing to losing) = **36.6%** of CPL gap — single largest contributor
+- **No-flip errors** (optimization loss, staying ahead but suboptimal) = ~50% of gap — the satisficing signature
+- **Blunders format-invariant** regardless of flip type (~1.7-1.8%)
+- Flip share of errors: 33.7% (std) → 36.7% (960) — 960 errors are proportionally more game-changing
+
+## Result 10: Game Volatility & Error Cascade
+
+From [[Game Volatility]]:
 - **Time to first inaccuracy**: median move 3 (960) vs move 5 (standard); 95.4% vs 84.1% of games affected
-- **Eval sign changes**: mean 1.68/game (960) vs 1.40 (standard); with ±50cp buffer: 0.56 vs 0.37
-- **Contagion**: opponent error raises your error rate by +23.2pp (std) vs +15.8pp (960) — standard has higher contagion from higher baseline resilience
-- **Transition matrix**: format gap concentrated in Good→Good responses (-9.3pp); after opponent errors, capitalization rates nearly identical (~52%)
-- **Not position sharpness**: complexity_1v2 is identical (33.5 vs 33.7); cascade is player-generated, not position-generated
-- **Eval-flip classification**: mistakes with eval flip = 36.6% of CPL gap; no-flip errors (optimization loss) = ~50%
+- **Move 1 signal**: 22% of 960 games have first inaccuracy on move 1 (vs 7.4% standard)
+- **Eval sign changes**: 0.56/game (960) vs 0.37 (standard) with ±50cp buffer; ≥1 meaningful flip in 40.9% vs 28.6%
+- **Not position sharpness**: complexity_1v2 identical (33.5 vs 33.7); "sharpness" is player-generated cascade, not position-generated
+
+## Result 11: Error Contagion
+
+From [[Error Contagion]]:
+- **Contagion**: opponent error raises your error rate by +23.2pp (std) vs +15.8pp (960) — ceiling effect from 960's higher baseline
+- **Transition matrix**: Good→Good rate = 81.2% (std) vs 70.8% (960); after opponent errors, capitalization nearly identical (~52%)
+- **ELO gradient**: 2100+ players show strongest contagion (3.7x multiplier in std) and largest capitalization gap (-5.3pp in 960)
+- Templates are a **consistency tool** for routine positions, not an exploitation tool for crises
 
 ## Publication Figures
 
