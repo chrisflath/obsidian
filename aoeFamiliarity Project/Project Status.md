@@ -30,6 +30,7 @@ Paper revision for **Management Science (MNSC)** submission at INFORMS.
 - TPE re-estimation with map fixed effects (addresses [[Nomad Anomaly]])
 - eAPM analysis (78k matches with APM data -- test communication efficiency)
 - Network analysis of partner re-selection dynamics
+- Gelbach decomposition of coordination gradient and map type gradient (see [[Research Open Ends]])
 
 ## Two-Venue Strategy
 
