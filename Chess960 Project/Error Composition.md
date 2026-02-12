@@ -367,6 +367,123 @@ How volatile are games? Number of times eval crosses zero during moves 1-12 (N=8
 
 960 games are significantly more volatile — nearly twice as many games have ≥2 meaningful eval flips. This is the cascade effect: early template-less errors create imbalanced positions that invite further errors.
 
+## Time to First Error
+
+How quickly does the first meaningful error appear? (N=81,774 games with ≥10 analyzed moves, moves 1–12, rapid, paired)
+
+| Metric | Standard | Chess960 | Δ | t-test |
+|--------|----------|----------|---|--------|
+| **First inaccuracy (CPL≥50)** | | | | |
+| % games with ≥1 | 84.1% | 95.4% | +11.3pp | |
+| Mean move | 5.18 | **3.46** | -1.72 | t=81.9, p≈0 |
+| Median move | 5 | **3** | -2 | |
+| **First mistake (CPL≥100)** | | | | |
+| % games with ≥1 | 58.9% | 76.2% | +17.3pp | |
+| Mean move | 7.03 | **5.91** | -1.11 | t=39.6, p≈0 |
+| **First blunder (CPL≥300)** | | | | |
+| % games with ≥1 | 16.2% | 16.4% | **+0.2pp** | |
+| Mean move | 8.58 | 8.39 | -0.20 | t=3.8, p=0.0001 |
+| **First eval flip (CPL≥50 + sign change)** | | | | |
+| % games with ≥1 | 56.1% | 72.9% | +16.7pp | |
+| Mean move | 5.65 | **4.07** | -1.58 | t=56.2, p≈0 |
+
+**Survival curve** (% games still "clean" — no inaccuracy yet):
+
+| By move | Standard | Chess960 | Δ |
+|---------|----------|----------|---|
+| 1 | 93.8% | 79.0% | -14.7pp |
+| 3 | 69.6% | 40.7% | -28.8pp |
+| 6 | 42.3% | 16.1% | -26.1pp |
+| 9 | 25.4% | 7.7% | -17.7pp |
+| 12 | 15.9% | 4.6% | -11.3pp |
+
+> [!important] Move 1 is the purest template signal
+> 22.0% of 960 games have their first inaccuracy on move 1 (vs 7.4% standard). Move 1 in standard is almost always book; in 960 it's a genuine decision from scratch.
+
+> [!note] Blunder timing is nearly identical
+> First blunder incidence (16.2% vs 16.4%) and timing (median move 9 both) are format-invariant. The tactical safety net holds — it's purely optimization errors that come earlier and more often. This is the cascade seed: the first template-less stumble on move 2–3 pushes the eval off balance, and downstream errors compound.
+
+## Error Contagion & Transition Matrix
+
+Does an opponent's error raise your error probability? (Consecutive half-moves, different players, moves 1–12)
+
+### Contagion Effect
+
+| | Standard | Chess960 |
+|---|---|---|
+| Error rate after opp clean move | 18.8% | 29.2% |
+| Error rate after opp error (CPL≥50) | 42.0% | 45.0% |
+| **Contagion (Δ)** | **+23.2pp** | **+15.8pp** |
+| Mean CPL after opp clean | 32.0 | 43.2 |
+| Mean CPL after opp error | 73.3 | 71.0 |
+| **CPL contagion (Δ)** | **+41.2** | **+27.8** |
+
+Both t-tests p≈0. Contagion is **stronger in standard** (+23.2pp vs +15.8pp), but this is a ceiling effect: 960 players already err at 29.2% baseline (vs 18.8%), leaving less room for contagion. In relative terms: standard = 2.2x multiplier, 960 = 1.5x multiplier.
+
+**By trigger severity:**
+
+| Trigger | Std err% after | 960 err% after | Std Δ | 960 Δ |
+|---------|---------------|---------------|-------|-------|
+| Inaccuracy (50–100) | 37.8% | 42.6% | +19.0pp | +13.4pp |
+| Mistake (100–300) | 48.2% | 49.0% | +29.4pp | +19.9pp |
+| Blunder (300+) | 42.3% | 41.2% | +23.5pp | +12.1pp |
+
+> [!note] Templates provide baseline resilience but create fragility when disrupted
+> Standard players operate at a low error floor thanks to templates, but when the opponent's error pushes them off-book, the jump is larger. 960 players already operate without that floor, so marginal impact of opponent errors is smaller.
+
+### Full Transition Matrix
+
+**Standard** (opponent move → your response):
+
+| Opp ↓ / You → | Best | Good | Inacc | Mistake | Blunder | N |
+|---|--:|--:|--:|--:|--:|--:|
+| Best | 23.6% | 62.3% | 8.5% | 4.7% | 0.8% | 191,994 |
+| Good | 13.2% | 66.9% | 12.3% | 6.5% | 1.1% | 847,090 |
+| Inaccuracy | 10.4% | 51.8% | 22.3% | 13.6% | 1.9% | 171,933 |
+| Mistake | 9.1% | 42.7% | 15.7% | 27.7% | 4.8% | 113,823 |
+| Blunder | 8.2% | 49.5% | 5.9% | 13.3% | 23.1% | 22,260 |
+
+**Chess960:**
+
+| Opp ↓ / You → | Best | Good | Inacc | Mistake | Blunder | N |
+|---|--:|--:|--:|--:|--:|--:|
+| Best | 19.1% | 56.5% | 15.0% | 8.3% | 1.1% | 72,442 |
+| Good | 12.0% | 57.6% | 18.9% | 10.3% | 1.1% | 311,512 |
+| Inaccuracy | 10.3% | 47.2% | 25.1% | 16.1% | 1.4% | 110,256 |
+| Mistake | 10.3% | 40.7% | 17.3% | 28.3% | 3.5% | 74,900 |
+| Blunder | 9.1% | 49.6% | 5.8% | 14.7% | 20.7% | 9,654 |
+
+**Δ (960 − Standard):**
+
+| Opp ↓ / You → | Best | Good | Inacc | Mistake | Blunder |
+|---|--:|--:|--:|--:|--:|
+| Best | -4.4 | -5.8 | **+6.5** | **+3.6** | +0.2 |
+| Good | -1.2 | **-9.3** | **+6.5** | **+3.8** | +0.1 |
+| Inaccuracy | -0.1 | -4.6 | +2.7 | +2.6 | -0.5 |
+| Mistake | +1.2 | -2.0 | +1.5 | +0.5 | -1.2 |
+| Blunder | +1.0 | +0.0 | -0.0 | +1.4 | **-2.4** |
+
+### Key Transition Matrix Findings
+
+1. **Top two rows** (after opp Best/Good): massive shift from Good → Inaccuracy/Mistake (+6.5pp each). Templates keep you clean in routine play.
+2. **Bottom two rows** (after opp Mistake/Blunder): differences are small and mixed. Once things go sideways, templates don't help.
+3. **Blunder→Blunder is -2.4pp**: 960 players are *more composed* after opponent disasters.
+4. **Capitalization rate after opp error**: nearly identical (52.8% std vs 51.8% 960). Templates don't help you *punish* errors.
+5. **Good→Good rate**: 81.2% std vs 70.8% 960 (-10.4pp). The entire format gap lives in routine positions.
+
+> [!important] The format gap lives in normal play, not in crisis management
+> After opponent plays Best/Good, standard players respond with Best/Good 81.2% of the time vs 70.8% in 960. After opponent mistakes/blunders, capitalization rates are virtually identical (~52%). Templates are a consistency tool for routine positions, not an exploitation tool for crises.
+
+### Error Cascade Model
+
+The findings support a cascade interpretation of the 960 format gap:
+
+1. **Seed**: First template-less error comes early (median move 3 vs move 5)
+2. **Propagation**: Early error pushes eval off-balance → positions leave balanced territory (38.7% vs 52.6% within |eval|<50)
+3. **Amplification**: Imbalanced positions invite further errors from both players (contagion)
+4. **Asymmetry**: In standard, templates provide resilience in normal positions (81% good-after-good) but fragility when disrupted (+23pp contagion). In 960, baseline error rate is already high but contagion adds less.
+5. **Not position sharpness**: Objective complexity (complexity_1v2) is identical; the "sharpness" is player-generated
+
 ## Mechanism Story
 
 1. **Reference-point clarity**: In standard chess, templates provide a salient reference ("I am on-book / plan-consistent"). Small deviations are behaviorally meaningful. In 960, the reference is ambiguous — players face higher uncertainty about what "par" looks like.

@@ -64,6 +64,16 @@ From [[Time Mechanism]]:
 - 960 players over-think easy positions, under-think hard ones
 - Time over-allocation largest when winning (1.21x)
 
+## Result 9: Error Cascade Dynamics
+
+From [[Error Composition]]:
+- **Time to first inaccuracy**: median move 3 (960) vs move 5 (standard); 95.4% vs 84.1% of games affected
+- **Eval sign changes**: mean 1.68/game (960) vs 1.40 (standard); with ±50cp buffer: 0.56 vs 0.37
+- **Contagion**: opponent error raises your error rate by +23.2pp (std) vs +15.8pp (960) — standard has higher contagion from higher baseline resilience
+- **Transition matrix**: format gap concentrated in Good→Good responses (-9.3pp); after opponent errors, capitalization rates nearly identical (~52%)
+- **Not position sharpness**: complexity_1v2 is identical (33.5 vs 33.7); cascade is player-generated, not position-generated
+- **Eval-flip classification**: mistakes with eval flip = 36.6% of CPL gap; no-flip errors (optimization loss) = ~50%
+
 ## Publication Figures
 
 1. **Fig 1** (`fig1_hero.pdf`): Three-panel hero — (a) phase bars, (b) displacement gradient with scatter, (c) Gelbach waterfall
