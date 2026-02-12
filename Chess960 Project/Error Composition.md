@@ -4,7 +4,7 @@
 
 Does the Chess960 format gap come from catastrophic blunders or from missed optimization? Do players in unfamiliar territory shift to "don't lose" mode?
 
-## Key Finding: Selective Blindness, Not Risk Collapse
+## Key Finding: Loss Aversion → Satisficing
 
 Templates don't protect against catastrophes — basic tactical vision handles that. Templates help **optimize**: choosing the best move among several reasonable options.
 
@@ -112,14 +112,17 @@ The severity reversal confirms: when positions are unambiguous (one best move), 
 
 960 errors are **more costly** (+24.6% CPL/error). The error rate barely changes (+1.7pp), but each error is larger.
 
-## Mechanism Story
+## Mechanism Story: Loss Aversion Under Uncertainty
 
-1. **Catastrophes are tactical** — detected by calculation, not templates. Format-invariant.
-2. **Templates enable optimization** — choosing the *best* among several reasonable moves.
-3. Without templates, players cannot discriminate between good and optimal → more mid-range errors.
-4. In demanding positions (one best move), 960 players are MORE careful (heightened vigilance).
-5. The format gap is entirely driven by **forgiving positions** where templates provide discriminatory power.
-6. Each 960 error is more costly (+24.6%), not that there are more errors (+1.7pp).
+Unfamiliar territory triggers **loss aversion** — players optimize for downside protection at the cost of optimization.
+
+1. **Catastrophes are tactical** — detected by calculation, not templates. Format-invariant (1.7% both formats, p=0.60).
+2. Without templates, positions *feel* uncertain → players shift to **satisficing** (pick a safe-looking move) rather than **optimizing** (find the best move).
+3. This defensive posture succeeds at avoiding disasters but sacrifices discrimination between good and optimal moves → more mid-range errors.
+4. In demanding positions (one best move), the loss-averse posture actually *helps* — 960 players are MORE vigilant (-2.5 CPL).
+5. The format gap is entirely driven by **forgiving positions** where templates would have guided optimization but loss aversion leads to satisficing.
+6. Links to **anti-calibration** ([[Time Mechanism]]): players spend more time on easy positions because those *feel* uncertain without a template, even though objectively there's little risk.
+7. Each 960 error is more costly (+24.6% CPL/error), not that there are more errors (+1.7pp) — consistent with satisficing: when the chosen move isn't optimal, the gap to best is larger.
 
 ## Scripts
 
