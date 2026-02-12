@@ -65,6 +65,10 @@ The **Team Player Effect (TPE)** -- a measurable coordination/social skill disti
 - **TPE = "compass"**: Adaptive coordination skills; remains valuable regardless of meta shifts
 - **Familiarity = "old habits"**: Sometimes helps, sometimes hurts when meta shifts
 
+## Cross-Project Link
+
+See [[Skill Decomposition — Cross-Project Bridge]] — the two-rating decomposition in the [[Chess960 Project/Research Design|Chess960 project]] is structurally identical to the patch shock identification here: both separate transferable skill from context-specific capital using natural experiments that disable the context-specific channel.
+
 ## Scientific Contributions
 
 1. **Measurement Innovation** -- First large-scale quantification of team coordination skill as distinct from individual ability

@@ -48,4 +48,4 @@ Window: +/- 45 days around each major patch.
 - **TPE = "compass"**: Adaptive coordination skill that points "north" regardless of meta changes
 - **Familiarity = "old habits"**: Prior coordination patterns that may or may not transfer to the new meta
 
-This is the paper's central identification result. See also [[Permutation Tests]] for placebo validation and [[Meta Maturity Recovery]] for the recovery curve.
+This is the paper's central identification result. See also [[Permutation Tests]] for placebo validation, [[Meta Maturity Recovery]] for the recovery curve, and [[Skill Decomposition — Cross-Project Bridge]] for the structural parallel with the Chess960 two-rating decomposition.

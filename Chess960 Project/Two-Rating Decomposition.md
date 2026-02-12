@@ -50,7 +50,7 @@ This is a strong specificity test: prep capital should only matter where templat
 | PGN median | +0.101*** |
 | PGN first-observed | +0.029*** |
 
-See also: [[Research Design]], [[Key Results]], [[Random Slopes & BLUPs]]
+See also: [[Research Design]], [[Key Results]], [[Random Slopes & BLUPs]], [[Skill Decomposition — Cross-Project Bridge]]
 
 **Script**: `analysis/two_rating_decomposition.py`
 
