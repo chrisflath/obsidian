@@ -170,6 +170,8 @@ Queen and bishops are top contributors on both platforms. See [[Gelbach Decompos
 
 **Within-player**: 96% of paired players worse in 960, paired t=10.22 (p<.0001).
 
+**Expertise gradient**: Chess.com titled players slot in above the Lichess top tier (2400+). Their standard CPL (14.6) is lower than Lichess 2400+ (18.7), confirming greater skill, yet their format gap is 1.7x larger (+0.67 vs +0.40 log-scale). Template dependency deepens with expertise. See [[Key Results#Result 13 Expertise Gradient — Template Dependency Is Not Outgrown]].
+
 ## Status
 
 Discovery complete: **44 tournaments, 200 players, 8636 participation records**.

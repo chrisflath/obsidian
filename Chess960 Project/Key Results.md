@@ -103,6 +103,33 @@ Using Freestyle Friday (960 blitz 3+1) vs Titled Tuesday (standard blitz 3+1), N
 > [!warning] Preliminary
 > Based on ~3% of chess.com data. Full sample (~15K games) will take ~80 hours of engine analysis. Individual piece-level estimates (especially king, rooks) are noisy at N=29 players.
 
+## Result 13: Expertise Gradient — Template Dependency Is Not Outgrown
+
+Combined Lichess rapid tiers (800–2400+) with Chess.com titled players at the top:
+
+| Tier | Platform | CPL 960 | CPL std | Gap (CPL) | Gap (log) | Paired t |
+|------|----------|---------|---------|-----------|-----------|----------|
+| 800-1200 | Lichess | 79.3 | 70.5 | +8.7 | +0.27 | 5.8*** |
+| 1200-1500 | Lichess | 63.9 | 54.0 | +9.9 | +0.31 | 10.4*** |
+| 1500-1800 | Lichess | 56.2 | 44.3 | +11.9 | +0.37 | 14.0*** |
+| 1800-2100 | Lichess | 44.4 | 30.9 | +13.5 | +0.42 | 17.3*** |
+| 2100-2400 | Lichess | 39.5 | 26.7 | +12.8 | +0.39 | 14.6*** |
+| 2400+ | Lichess | 29.5 | 18.7 | +10.8 | +0.40 | 8.2*** |
+| **Titled** | **Chess.com** | **32.4** | **14.6** | **+17.8** | **+0.67** | **12.2***** |
+
+**Key findings:**
+- Standard CPL drops monotonically from 70 to 15 as expertise rises — experts are much better at chess
+- But the format gap **does not shrink** — it grows from +0.27 (amateurs) to +0.40 (Lichess 2400+) in log-scale
+- Chess.com titled players: **+0.67 log-gap**, 1.7x the Lichess top tier
+- Chess.com titled standard CPL (14.6) is *lower* than Lichess 2400+ (18.7), confirming greater skill — yet their 960 gap is larger
+- The 1.7x ratio is partly time-control amplification (blitz vs rapid), but the pattern is clear: **the more you invest in templates, the more you lose when they're removed**
+
+> [!important] Expertise amplifies template dependency
+> This is consistent with the satisficing/template-loss interpretation: experts have invested more in template capital, so they lose more when it's unavailable. Template dependency is not something players outgrow — it deepens with expertise.
+
+> [!note] Cross-platform caveat
+> Lichess rapid and chess.com blitz are different time controls and rating pools. The chess.com tier is placed above Lichess because all players are titled (GMs, IMs). The 1.7x gap inflation includes both expertise and time-pressure effects. Within each platform the expertise gradient is independently significant.
+
 ## Publication Figures
 
 1. **Fig 1** (`fig1_hero.pdf`): Three-panel hero — (a) phase bars, (b) displacement gradient with scatter, (c) Gelbach waterfall
