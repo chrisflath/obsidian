@@ -69,10 +69,49 @@ This is the critical interaction — template carry-over works near standard but
 
 Central pawn pushes (e4, d4, e5, d5) are general-purpose heuristics that work reasonably across positions. Position-specific moves (Nf6, c6, d6) are terrible when carried over — these rely on piece configuration that doesn't exist in 960.
 
+### 5. Move 1 CPL landscape: Standard vs 960
+
+The full move-1 CPL landscape reveals why template carry-over "works" at the surface level:
+
+**Move 1 CPL baselines:**
+
+| | Standard | Chess960 |
+|--|----------|----------|
+| White | 10.0 | 25.5 |
+| Black | 15.3 | 33.1 |
+
+**White move 1 CPL in 960 (all players, not just template):**
+
+| Move | N | Mean CPL | Median | P(optimal) | P(CPL>50) |
+|------|---|----------|--------|-----------|-----------|
+| f4 | 1,767 | 19.9 | 11 | 19.0% | 11.8% |
+| c4 | 1,782 | 20.6 | 10 | 19.5% | 13.5% |
+| **e4** | **6,033** | **22.2** | **11** | **20.0%** | **14.5%** |
+| **d4** | **4,105** | **22.5** | **12** | **19.6%** | **14.6%** |
+| b3 | 2,327 | 22.9 | 16 | 12.0% | 11.6% |
+| g3 | 2,826 | 24.0 | 17 | 12.3% | 13.0% |
+| e3 | 477 | 39.4 | 34 | 5.2% | 34.4% |
+| d3 | 382 | 41.7 | 40 | 6.0% | 36.4% |
+
+**Comparison with standard:**
+
+| Move | Std CPL | 960 CPL | Penalty |
+|------|---------|---------|---------|
+| e4 | 4.2 | 22.2 | +18.0 |
+| d4 | 4.3 | 22.5 | +18.2 |
+| b3 | 60.4 | 22.9 | -37.5 |
+| f4 | 69.2 | 19.9 | -49.3 |
+
+> [!info] Template moves: safe heuristic, not optimal
+> e4/d4 in 960 are **better than the 960 average** (22 vs 25.5 CPL) — they're safe general-purpose heuristics. But they cost **18 CPL more** than in standard (where they're essentially free at ~4 CPL). They're the best guess without position-specific knowledge, but far from the actual best move in each 960 position.
+
+> [!info] Landscape inversion
+> Moves that are terrible in standard (b3 at 60 CPL, f4 at 69 CPL) become **among the best** in 960 (23 and 20 CPL respectively). The whole opening move landscape is reshuffled — standard heuristics about "good" vs "bad" first moves don't transfer.
+
 ## Interpretation
 
 Template carry-over operates at two levels:
-1. **Surface level (move 1):** General heuristics (central pawns) transfer well — they're good moves in most positions
+1. **Surface level (move 1):** General heuristics (central pawns) transfer well — they're better than average in 960, optimal ~20% of the time. But they still cost ~18 CPL more than in standard.
 2. **Structural level (subsequent development):** Templates break down — where to develop pieces, castling plans, pawn structure all depend on the specific 960 position
 
 The position-similarity interaction directly supports the **graded transfer** story: the template distance gradient isn't just about *missing* knowledge, it's about *misapplied* knowledge. Near-standard positions allow partial template reuse; far positions render templates useless.
