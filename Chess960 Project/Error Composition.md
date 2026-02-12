@@ -112,14 +112,17 @@ The severity reversal confirms: when positions are unambiguous (one best move), 
 
 960 errors are **more costly** (+24.6% CPL/error). The error rate barely changes (+1.7pp), but each error is larger.
 
-## Prospect Theory: The S-Curve
+## Reference-Point Clarity and Prospect Theory
 
-The format gap follows a **prospect-theory value function** when plotted against position evaluation (distance from reference point).
+### The Construct: Reference-Point Clarity
 
-> [!important] Reference point = balanced position (eval ≈ 0)
-> Templates define "normal." Near the reference point, templates guide optimization. Far from it, pure calculation dominates and templates become irrelevant — or even harmful.
+In standard chess, opening templates provide a salient, shared reference — "I am on-book / plan-consistent" — which makes small deviations behaviorally meaningful. In Chess960, that reference is weaker; players face higher ambiguity about what "par" looks like, so they (i) satisfice more in slack states, and (ii) behave differently when already behind.
 
-### The Value Function (format gap by eval)
+This is not a claim that players have subjective value functions over centipawns. It is a claim that **template availability modulates reference-point clarity**, which in turn mediates perceived stakes and decision strategy.
+
+### The S-Curve (raw bins)
+
+Format gap by pre-move evaluation (887K moves, eval clipped ±500):
 
 ```
 Eval range       Gap      Visual
@@ -135,41 +138,78 @@ Eval range       Gap      Visual
 (200, 500]      -11.0     █████|          ← 960 BETTER
 ```
 
-### Formal Test: Quadratic Interaction (S-curve)
+### Formal Test: Piecewise-Linear Spline (Player FE)
 
-`log(CPL+1) ~ is_960 × eval_z + is_960 × eval_z² + elo_z + move_z` (N=887K, clustered SEs)
+`log(CPL+1) ~ is_960 × f(|eval|) + move_z + player FE` (N=887K, player-clustered SEs)
+
+Knots at {25, 50, 100, 200} cp. Marginal format effect β(is_960 | |eval|) with 95% CI:
+
+| |eval| (cp) | β_format | SE | 95% CI |
+|-------------|----------|-----|--------|
+| 0 | +0.407 | 0.026 | [+0.356, +0.457] |
+| 25 | **+0.459** | 0.029 | [+0.403, +0.515] |
+| 50 | +0.430 | 0.023 | [+0.385, +0.474] |
+| 75 | +0.290 | 0.018 | [+0.254, +0.326] |
+| 100 | +0.149 | 0.020 | [+0.109, +0.190] |
+| 150 | +0.072 | 0.016 | [+0.040, +0.103] |
+| 200 | -0.006 | 0.019 | [-0.042, +0.031] |
+| 300 | -0.004 | 0.017 | [-0.037, +0.029] |
+
+Format effect peaks at |eval| ≈ 25cp, decays monotonically, crosses zero at |eval| ≈ 200cp.
+
+Key spline interactions (player FE, clustered SEs):
+- `is_960 × sp_50` = **−0.444*** (gap accelerates downward 50-100cp)
+- `is_960 × sp_100` = +0.406*** (deceleration after 100cp — floor reached)
+
+### Domain Split with Player FE
+
+`log(CPL+1) ~ is_960 × domain + move_z + player FE` (player-clustered SEs)
+
+**Threshold ±50cp:**
+
+| Domain | β(is_960) | SE | p | N |
+|--------|-----------|-----|---|---|
+| Equal (±50cp) | **+0.459** | 0.023 | *** | 438K |
+| Winning (>50) | +0.233 | 0.018 | *** | 293K |
+| Losing (<-50) | +0.140 | 0.018 | *** | 156K |
+
+| Contrast | Estimate | SE | p |
+|----------|----------|-----|---|
+| Δ(winning − equal) | **−0.226** | 0.021 | *** |
+| Δ(losing − equal) | **−0.319** | 0.022 | *** |
+
+**Robustness (±25cp threshold):** Same ordering. Equal +0.440***, Winning +0.392***, Losing +0.229***. Δ(losing − equal) = −0.212***.
+
+> [!note] All domains have β > 0 in log scale
+> With player FE and log(CPL+1), the losing-domain coefficient is positive but much smaller. The raw CPL gap IS negative when losing (−2.8), because log compression dampens the tails. The key finding is the **ordering**: β(equal) >> β(winning) > β(losing).
+
+### Move Volatility: Chess-Native Risk Proxy
+
+Prospect theory's reflection effect concerns **variance/risk**, not just mean error. Using MultiPV data (422K moves):
+
+**A) Within-player CPL variance by domain (paired t-tests):**
+
+| Domain | Std var | 960 var | Paired t | p | N players |
+|--------|---------|---------|----------|---|-----------|
+| Winning | 5,328 | 6,133 | +2.86 | .005** | 283 |
+| Equal | 2,749 | **3,429** | +4.98 | <.0001*** | 296 |
+| Losing | 8,329 | 7,775 | −1.44 | .150 n.s. | 237 |
+
+960 players are MORE erratic when winning/equal (no template guidance → inconsistent satisficing), but equally or LESS erratic when losing (forced into focused calculation).
+
+**B) Position eval spread (sd of top-5 engine lines):**
+
+`eval_spread_z ~ is_960 × is_losing + move_z + player FE` (player-clustered SEs, N=423K):
 
 | Coefficient | Estimate | SE | p |
 |-------------|----------|-----|---|
-| is_960 | +0.433 | 0.018 | *** |
-| is_960 × eval_z | **-0.024** | 0.004 | *** |
-| is_960 × eval_z² | **-0.052** | 0.003 | *** |
+| is_960 | +0.031 | 0.007 | *** |
+| is_losing | +0.267 | 0.012 | *** |
+| **is_960 × losing** | **−0.141** | 0.014 | *** |
 
-Both the linear and quadratic interactions are negative and highly significant:
-- **Linear** (−0.024): format gap shrinks as position becomes more extreme
-- **Quadratic** (−0.052): gap narrows *faster* at extremes (concavity) — the S-curve
+When losing, 960 positions have **lower** eval spread — consistent with 960 players navigating to positions with fewer wild tactical swings (risk-averse continuation choices, or simply that 960 losing positions are structurally less volatile).
 
-### Domain Split
-
-| Domain | Format gap | Catastrophe Δ | Perfect Δ |
-|--------|-----------|---------------|-----------|
-| Winning (eval > 50) | +3.7 | -0.47pp | +0.14pp |
-| Equal (±50) | **+13.6** | +0.07pp | **-1.77pp** |
-| Losing (eval < -50) | **-2.8** | **-1.13pp** | **+1.35pp** |
-
-When losing, 960 players: fewer catastrophes, MORE perfect moves, LOWER CPL. Without templates, they're in pure calculation mode — no template interference.
-
-### Variance by Domain
-
-| Domain | Std CPL var | 960 CPL var | Ratio |
-|--------|------------|------------|-------|
-| Winning | 7,212 | 6,288 | 0.87 |
-| Equal | 2,494 | **3,211** | **1.29** |
-| Losing | 10,389 | 8,674 | 0.84 |
-
-At the reference point (equal), 960 has **higher** variance — consistent with ambiguity about the right move. At extremes, 960 has **lower** variance — more consistent play when templates aren't relevant.
-
-### Time by Domain
+**C) Time by domain:**
 
 | Domain | Std time | 960 time | 960/Std |
 |--------|----------|----------|---------|
@@ -177,27 +217,58 @@ At the reference point (equal), 960 has **higher** variance — consistent with 
 | Equal | 9.4s | 10.4s | 1.11x |
 | Winning | 8.5s | 10.2s | **1.21x** |
 
-960 players over-think most when WINNING — consistent with loss aversion: they have something to protect and don't trust their move choice without template guidance.
+Over-thinking most pronounced when winning — the domain with the most to protect.
+
+### Depth-Free Validity Check
+
+> [!warning] Potential circularity
+> If eval_before is derived from the same engine pipeline as CPL, the S-curve could be mechanical. Need a depth-free state proxy.
+
+**num_legal_moves (fully depth-free):**
+
+`log(CPL+1) ~ is_960 × legal_z + is_960 × legal_z² + move_z + player FE` (N=423K, clustered SEs):
+
+| Coefficient | Estimate | SE | p |
+|-------------|----------|-----|---|
+| is_960 × legal_z | **−0.133** | 0.013 | *** |
+| is_960 × legal_z² | **−0.035** | 0.004 | *** |
+
+The **quadratic interaction replicates** with a completely depth-free proxy. Both linear and quadratic terms significant, confirming diminishing sensitivity is not an artifact of engine-depth circularity.
+
+**share_good (engine-derived but independent of CPL computation):**
+
+| Position type | Format gap |
+|--------------|-----------|
+| Hard (sg < 0.25) | **−2.8** |
+| Moderate (0.25-0.5) | +4.6 |
+| Easy (0.5-0.75) | +3.3 |
+| Very easy (sg > 0.75) | **+8.3** |
+
+Reproduces the same pattern: gap is negative in demanding positions, peaks in forgiving ones.
 
 ## Prospect Theory Mapping
 
-| PT Concept | Chess Analog | Evidence |
-|------------|-------------|----------|
-| **Reference point** | Balanced position (eval ≈ 0) | Format gap peaks at reference, vanishes at extremes |
-| **Loss aversion** (λ > 1) | Catastrophe avoidance > optimization pursuit | Catastrophe rate flat, perfect rate falls; gap is −1.77pp vs +0.07pp |
-| **Diminishing sensitivity** | Gap shrinks with |eval| | is_960 × eval_z² = −0.052*** |
-| **Reflection effect** | 960 better when losing | Gap reverses to −2.8 in loss domain |
-| **Certainty effect** | Templates provide pseudo-certainty | Without templates → uncertainty → satisficing |
-| **Anti-calibration** | Overweighted uncertainty at reference | Over-thinking easy positions ([[Time Mechanism]]) |
+| PT Concept | Operationalization | Evidence |
+|------------|-------------------|----------|
+| **Reference-point clarity** | Templates define "par" | Format gap peaks near equality, vanishes at extremes |
+| **Loss aversion** | Downside protection > optimization pursuit | Catastrophe rate flat (p=.60), optimization sacrificed |
+| **Diminishing sensitivity** | Gap shrinks with |eval| | Spline: β peaks at 25cp, zero by 200cp. Quadratic: −0.052*** |
+| **Reflection** | Different behavior below reference | β(losing) << β(equal); CPL variance lower when losing |
+| **Satisficing near reference** | Uncertainty → "good enough" play | Gap concentrated in forgiving positions (+8.5 CPL vs −2.5 CPL) |
+| **Anti-calibration** | Misperceived stakes | Over-thinking easy positions ([[Time Mechanism]]) |
 
-## Mechanism Story: Loss Aversion Under Uncertainty
+> [!note] What we are NOT claiming
+> We do not claim to observe subjective value functions or to estimate λ. The claim is behavioral: template availability modulates reference-point clarity, which mediates perceived stakes and the satisficing–optimizing tradeoff. The S-curve, domain asymmetry, and variance patterns are consistent with this framing and provide a parsimonious account of multiple findings.
 
-1. **Templates define the reference point** — "I know what to do here" = equilibrium. Without templates, every position feels like it could be a loss.
-2. Near the reference (balanced positions), templates help **optimize** among reasonable moves. Without them, loss aversion triggers satisficing → format gap peaks (+13.8 CPL).
-3. **Diminishing sensitivity**: as positions become more extreme, templates lose relevance. What matters is pure calculation — and 960 players have no template interference.
-4. **Reversal at extremes**: heavily winning/losing positions produce a *negative* format gap (−11 CPL). Templates may actually hurt here (overconfidence in "known" positions, pattern-matching that doesn't apply).
-5. **Catastrophes are format-invariant** — asymmetric sensitivity means downside protection is preserved even without templates. The cost is entirely in missed optimization.
-6. Links to **anti-calibration** ([[Time Mechanism]]): positions *feel* uncertain without templates → over-thinking easy positions. Time over-allocation is largest when winning (1.21x) — the domain with the most to protect.
+## Mechanism Story
+
+1. **Reference-point clarity**: In standard chess, templates provide a salient reference ("I am on-book / plan-consistent"). Small deviations are behaviorally meaningful. In 960, the reference is ambiguous — players face higher uncertainty about what "par" looks like.
+2. **Near parity** (|eval| < 50cp): templates help optimize among reasonable moves. Without them, ambiguity triggers satisficing → format gap peaks (+0.459 in log CPL).
+3. **Diminishing sensitivity**: as positions become more extreme, templates lose relevance. What matters is pure calculation, and template interference fades.
+4. **Reversal at extremes** (|eval| > 200cp): format effect vanishes. In heavily losing positions, 960 players show lower CPL variance and fewer catastrophes — consistent with focused calculation unclouded by template overconfidence.
+5. **Catastrophes are format-invariant** — downside protection is preserved regardless of template availability. The cost is entirely in missed optimization near parity.
+6. **Time allocation** confirms: over-thinking is most pronounced when winning (1.21x) — the domain where loss aversion is strongest.
+7. **Depth-free replication**: quadratic interaction (−0.035***) holds with num_legal_moves, ruling out engine-circularity artifacts.
 
 ## Scripts
 
