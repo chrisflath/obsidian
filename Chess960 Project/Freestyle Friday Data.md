@@ -67,11 +67,18 @@ Chess.com API asks for reasonable usage. Include `User-Agent` header. Expect ~1 
 
 1. Pull player lists from all tournament round endpoints (not just registered — actual participants from game data)
 2. Deduplicate players across tournaments
-3. Fetch monthly game archives for each player, keep ALL blitz games (both standard and chess960)
+3. Fetch monthly game archives for each player:
+   - **All chess960 blitz games** (FF + non-tournament)
+   - **Titled Tuesday standard blitz games** as control arm (capped at 100/player)
+   - Standard blitz rating extracted from in-game data even when games aren't stored
 4. Extract format-specific ratings from in-game data (median across games)
 5. Store in separate `db/chesscom.db` (not mixed with Lichess data)
 
 Estimated API calls: ~200 players × ~12 months ≈ 2400 archive calls ≈ 40 min at 1/sec.
+
+### Analysis-Time Filtering
+
+Prioritize games where **both players are in the FF pool** — this gives controlled opponent quality and bilateral rating data. Same logic applies to TT control games: TT games between two FF participants are the cleanest control.
 
 ## Data Properties
 
@@ -136,7 +143,7 @@ Estimated API calls: ~200 players × ~12 months ≈ 2400 archive calls ≈ 40 mi
 ## Status
 
 Discovery complete: **44 tournaments, 200 players, 8636 participation records**.
-Game fetching pending. Script: `scraper/chesscom_collector.py`
+Game fetching in progress. Script: `scraper/chesscom_collector.py`
 
 ```bash
 # Check status
