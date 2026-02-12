@@ -183,6 +183,7 @@ KQ_WEIGHT = 0.01492  # K-Q same color (p=0.001)
 3. They over-think easy positions and under-think hard ones
 4. The binding constraint is **template knowledge** (85% residual), not computational difficulty (-8.8% suppressor)
 5. Evidence is opening-specific and scales monotonically with template distance
+6. Consequence: not catastrophic blunders but **missed optimization** — see [[Error Composition]]
 
 ## Scripts
 
