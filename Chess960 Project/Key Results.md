@@ -130,6 +130,19 @@ Combined Lichess rapid tiers (800–2400+) with Chess.com titled players at the 
 > [!note] Cross-platform caveat
 > Lichess rapid and chess.com blitz are different time controls and rating pools. The chess.com tier is placed above Lichess because all players are titled (GMs, IMs). The 1.7x gap inflation includes both expertise and time-pressure effects. Within each platform the expertise gradient is independently significant.
 
+## Result 14: Template Carry-Over
+
+From [[Template Carry-Over]]:
+
+Players carry their standard top-2 opening moves into **27%** of 960 games (r=0.231*** with repertoire concentration).
+
+**Position similarity is the key moderator:**
+- Near-standard (fd ≤ 8): 34.3% carry-over, template move **saves 6.7 CPL**
+- Far-from-standard (fd > 14): 23.2% carry-over, template move gives **zero benefit** (+0.2 CPL)
+- Central pawn pushes (e4, d4) transfer well (~22 CPL); position-specific moves (Nf6, d6) are terrible (40-59 CPL)
+
+> [!important] Template carry-over is rational near standard but degrades to mere habit as displacement grows — supporting the graded transfer interpretation.
+
 ## Publication Figures
 
 1. **Fig 1** (`fig1_hero.pdf`): Three-panel hero — (a) phase bars, (b) displacement gradient with scatter, (c) Gelbach waterfall
