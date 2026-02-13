@@ -164,20 +164,16 @@ The FEN cache is a SQLite database shared across Lichess and chess.com analysis:
 **Format gap**: +0.291 log(CPL+1), ~1.87x the Lichess rapid gap. Time pressure amplifies template loss.
 
 **Gelbach decomposition replicates**: 41.4% explained (vs 35.7% Lichess), 58.6% residual (vs 64.3%).
-Queen is the largest single contributor at 17.0% (overtaking bishops). See [[Gelbach Decomposition]] for full cross-platform table.
+Queen (+17.0%) overtakes bishops (+9.8%) as the largest contributor in the elite sample. See [[Gelbach Decomposition]] for full table.
 
-**Template distance gradient**: Chess.com slope = 0.0075 (comparable to Lichess Q5 at 0.0083). Graded transfer replicates in independent sample/platform.
+**Theta decomposition**: theta3 is n.s. (p=0.60) due to range restriction in elite sample (R_std SD=240 vs Lichess SD=435). In-game rating interaction is significant (+0.019, p=0.034). Phase gradient shows theta4 strengthening from opening (n.s.) to endgame (-0.060**).
 
-**Theta decomposition**: theta3 NULL with API ratings (range restriction, R_std SD=240 vs Lichess 435). Partially recovered with in-game ratings (+0.019*, p=0.034). See [[Two-Rating Decomposition]] for details.
-
-**Expertise gradient**: Chess.com titled players slot in above the Lichess top tier (2400+). Their standard CPL (14.6) is lower than Lichess 2400+ (18.7), confirming greater skill, yet their format gap is larger. Template dependency deepens with expertise. See [[Key Results#Result 13 Expertise Gradient — Template Dependency Is Not Outgrown]].
-
-**SP number backfill**: chess960_position was NULL in chesscom.db — backfilled all 21,085 chess960 games by reverse-mapping FEN back-rank strings to SP numbers via `decode_sp()`. Standard games set to SP 518.
+**Expertise gradient**: Chess.com titled players slot in above the Lichess top tier (2400+). Quintile analysis shows the graded transfer slope steepens 2.6x from Q1 (weakest, slope=0.0031) to Q5 (strongest, slope=0.0083). Titled players: slope=0.0075, format offset=+0.211. See [[Key Results#Result 13 Expertise Gradient — Template Dependency Is Not Outgrown]].
 
 ## Status
 
 Discovery complete: **44 tournaments, 200 players, 8636 participation records**.
-Game collection complete. Engine analysis ongoing (~5,400 games analyzed so far, continuing in background).
+Game collection complete. Engine analysis in progress (~360 games/hr, ~80 hours for full sample).
 
 ```bash
 # Run chess.com engine analysis
