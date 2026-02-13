@@ -124,8 +124,32 @@ Combined Lichess rapid tiers (800–2400+) with Chess.com titled players at the 
 - Chess.com titled standard CPL (14.6) is *lower* than Lichess 2400+ (18.7), confirming greater skill — yet their 960 gap is larger
 - The 1.7x ratio is partly time-control amplification (blitz vs rapid), but the pattern is clear: **the more you invest in templates, the more you lose when they're removed**
 
-> [!important] Expertise amplifies template dependency
-> This is consistent with the satisficing/template-loss interpretation: experts have invested more in template capital, so they lose more when it's unavailable. Template dependency is not something players outgrow — it deepens with expertise.
+### Raw CPL Decomposition: Expertise Survives, Everybody Suffers
+
+The graded transfer plot in raw CPL (not log-transformed) reveals a clean two-component decomposition:
+
+**Graded transfer slopes by quintile (raw CPL):**
+
+| Tier | Std baseline | 960 intercept | Slope (CPL/unit) | Format offset |
+|------|-------------|---------------|-------------------|---------------|
+| Q1: 618–1420 | 62.6 | 67.3 | 0.47 | +4.7 |
+| Q2: 1427–1648 | 45.5 | 53.9 | 0.48 | +8.4 |
+| Q3: 1650–1862 | 40.5 | 44.8 | 0.64 | +4.3 |
+| Q4: 1864–2131 | 28.9 | 37.5 | 0.55 | +8.6 |
+| Q5: 2136–3085 | 16.9 | 25.5 | 0.55 | +8.6 |
+| Titled (Blitz) | 14.8 | 26.7 | 0.58 | +11.9 |
+
+**Two components decompose differently across expertise:**
+
+1. **Format offset** (intercept shift at td=0): **scales with expertise** — experts lose more at td=0 because they had more template capital to begin with. Grows from ~5 CPL (Q1) to ~12 CPL (Titled).
+2. **Graded transfer slope**: **skill-invariant** (~0.5 CPL per unit of template distance, flat across all tiers). Displacement is equally costly for everyone in absolute terms.
+
+> [!important] Expertise survives but everybody suffers equally from displacement
+> The parallel raw CPL slopes mean that position-level disruption from piece displacement is a fixed cognitive cost — a displaced bishop is equally confusing to a 1000 and a 2200. What varies with expertise is the *baseline* template-loss penalty (the format offset): experts lose more because they had more to lose. This is a cleaner decomposition than the log version, where both effects get conflated by the nonlinear transform.
+
+**Why the log version looks different:** The log-space slopes steepen with expertise (0.003 → 0.008) because `d/dx[log(CPL+1)] ≈ slope_raw / (mean_CPL+1)`. With equal raw slopes (~0.5) but lower baselines for experts, the same absolute cost maps to a proportionally larger log-space effect. The log version conflates two things: the uniform absolute gradient plus baseline compression.
+
+**Plot:** `plots/publication/panel_b_quintiles_raw.pdf` (raw CPL) and `panel_b_quintiles.pdf` (log-transformed).
 
 > [!note] Cross-platform caveat
 > Lichess rapid and chess.com blitz are different time controls and rating pools. The chess.com tier is placed above Lichess because all players are titled (GMs, IMs). The 1.7x gap inflation includes both expertise and time-pressure effects. Within each platform the expertise gradient is independently significant.
