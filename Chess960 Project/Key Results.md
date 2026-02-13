@@ -172,6 +172,21 @@ Dividing each tier's 960 CPL by Q3's sloped 960 regression line (CPL = 46.0 + 0.
 
 **Plot:** `plots/publication/panel_b_quintiles_norm.pdf`
 
+### Phase Specificity: Template Capital Is Purely an Opening Phenomenon
+
+Faceting the Q3-normalized plot by game phase (opening 1–12, middlegame 13–25, endgame 26+) reveals:
+
+- **Opening**: Strong convergence — Q1 slopes down (−0.011/unit), Q5/Titled slope up (+0.005/unit). Lines fan inward. Template capital compresses expertise.
+- **Middlegame**: Lines are nearly **parallel** — convergence disappears. Skill spread is preserved but template distance no longer differentially compresses expertise. Positions have normalized by move 13.
+- **Endgame**: Also parallel, wider CIs. No systematic convergence.
+
+> [!important] Greater starting permutation front-loads its effect into the opening
+> By middlegame, both sides have developed and the opening chaos has settled — the starting arrangement no longer differentially affects play. The "damage" from template absence is entirely absorbed in the first 12 moves. This is the visual equivalent of θ3's phase gradient (+0.050*** opening → n.s. middlegame/endgame), now confirmed from a third independent method.
+
+**Key identification asset:** The continuous variation in template distance (0–20 index) across 960 starting positions provides a **dose-response gradient** within the treatment group. This is not just 960-vs-standard (binary), but a continuous measure of *how much* templates are disrupted. The phase facets show this gradient only operates in the opening — exactly where templates are deployed.
+
+**Plot:** `plots/publication/panel_b_quintiles_norm_phases.pdf`
+
 > [!note] Cross-platform caveat
 > Lichess rapid and chess.com blitz are different time controls and rating pools. The chess.com tier is placed above Lichess because all players are titled (GMs, IMs). The 1.7x gap inflation includes both expertise and time-pressure effects. Within each platform the expertise gradient is independently significant.
 
