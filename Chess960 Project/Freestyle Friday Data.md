@@ -159,23 +159,25 @@ The FEN cache is a SQLite database shared across Lichess and chess.com analysis:
 - **Standard capped at 100/player**: 65,595 excess standard games marked as 'skipped', keeping 15,910 total
 - Query uses `ROW_NUMBER()` windowing for 10 games/player/format per batch
 
-### Preliminary Results (N=510, 29 paired players)
+### Updated Results (N=5,182 games, 252 paired players)
 
-**Format gap**: +0.738 log(CPL+1), ~4.75x the Lichess rapid gap. Time pressure amplifies template loss.
+**Format gap**: +0.291 log(CPL+1), ~1.87x the Lichess rapid gap. Time pressure amplifies template loss.
 
-**Gelbach decomposition replicates**: 39.7% explained (vs 35.7% Lichess), 60.3% residual (vs 64.3%).
-Queen and bishops are top contributors on both platforms. See [[Gelbach Decomposition]] for full table.
+**Gelbach decomposition replicates**: 41.4% explained (vs 35.7% Lichess), 58.6% residual (vs 64.3%).
+Queen is the largest single contributor at 17.0% (overtaking bishops). See [[Gelbach Decomposition]] for full cross-platform table.
 
-**Template distance gradient**: r=0.131 (p=0.002) — graded transfer replicates in independent sample/platform.
+**Template distance gradient**: Chess.com slope = 0.0075 (comparable to Lichess Q5 at 0.0083). Graded transfer replicates in independent sample/platform.
 
-**Within-player**: 96% of paired players worse in 960, paired t=10.22 (p<.0001).
+**Theta decomposition**: theta3 NULL with API ratings (range restriction, R_std SD=240 vs Lichess 435). Partially recovered with in-game ratings (+0.019*, p=0.034). See [[Two-Rating Decomposition]] for details.
 
-**Expertise gradient**: Chess.com titled players slot in above the Lichess top tier (2400+). Their standard CPL (14.6) is lower than Lichess 2400+ (18.7), confirming greater skill, yet their format gap is 1.7x larger (+0.67 vs +0.40 log-scale). Template dependency deepens with expertise. See [[Key Results#Result 13 Expertise Gradient — Template Dependency Is Not Outgrown]].
+**Expertise gradient**: Chess.com titled players slot in above the Lichess top tier (2400+). Their standard CPL (14.6) is lower than Lichess 2400+ (18.7), confirming greater skill, yet their format gap is larger. Template dependency deepens with expertise. See [[Key Results#Result 13 Expertise Gradient — Template Dependency Is Not Outgrown]].
+
+**SP number backfill**: chess960_position was NULL in chesscom.db — backfilled all 21,085 chess960 games by reverse-mapping FEN back-rank strings to SP numbers via `decode_sp()`. Standard games set to SP 518.
 
 ## Status
 
 Discovery complete: **44 tournaments, 200 players, 8636 participation records**.
-Game collection complete. Engine analysis in progress (~360 games/hr, ~80 hours for full sample).
+Game collection complete. Engine analysis ongoing (~5,400 games analyzed so far, continuing in background).
 
 ```bash
 # Run chess.com engine analysis
