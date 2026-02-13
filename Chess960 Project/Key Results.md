@@ -151,6 +151,27 @@ The graded transfer plot in raw CPL (not log-transformed) reveals a clean two-co
 
 **Plot:** `plots/publication/panel_b_quintiles_raw.pdf` (raw CPL) and `panel_b_quintiles.pdf` (log-transformed).
 
+### Q3-Normalized Decomposition: Inherent Skill vs Template Capital
+
+Dividing each tier's 960 CPL by Q3's sloped 960 regression line (CPL = 46.0 + 0.56 × td) reveals **convergence toward the median player** as template distance increases:
+
+| Tier | Ratio at td=0 | Ratio at td=20 | Norm slope |
+|------|--------------|----------------|------------|
+| Q1 (weakest) | 1.55 | 1.24 | −0.013 |
+| Q3 (median) | 1.03 | 1.00 | −0.001 |
+| Q5 (strongest) | 0.55 | 0.63 | +0.005 |
+| Titled (Blitz) | 0.58 | 0.68 | +0.005 |
+
+**Decomposition of the expertise gap:**
+- **Right side (td≈20)**: spread ≈ 0.6 (1.24 − 0.63) = **inherent skill difference** — what remains after templates are fully stripped away. Experts genuinely are better at chess even without preparation.
+- **Left side (td≈0)**: spread ≈ 1.0 (1.55 − 0.55) = inherent skill + template capital
+- **Convergence (left → right)**: ~40% of the observable expertise gap at near-standard positions is **template capital**; ~60% is **irreducible skill**
+
+> [!important] Independent convergence with Gelbach
+> The ~60% irreducible skill / ~40% template capital split converges with the Gelbach residual (~64% unexplained = pure template absence) from a completely different identification strategy. Two orthogonal decomposition methods point to the same ratio.
+
+**Plot:** `plots/publication/panel_b_quintiles_norm.pdf`
+
 > [!note] Cross-platform caveat
 > Lichess rapid and chess.com blitz are different time controls and rating pools. The chess.com tier is placed above Lichess because all players are titled (GMs, IMs). The 1.7x gap inflation includes both expertise and time-pressure effects. Within each platform the expertise gradient is independently significant.
 
