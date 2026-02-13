@@ -113,9 +113,49 @@ With N=13,653 moves (35 paired players, partial MultiPV coverage):
 - Effect **stronger** in elite blitz than Lichess rapid — time pressure amplifies miscalibration
 - Aggregate: std r=−0.066, 960 r=+0.065 (both p<.0001)
 
+### Chess.com Complexity Replication (N=20,127 moves, 252 players)
+
+**Result 5 replication — Complexity is not a confound:**
+- Format gap +17.6 CPL after full complexity controls (raw: +18.4)
+- `share_good_top5` is strongest predictor (−5.2/SD), same as Lichess
+- `complexity_1v2` not significant (p=0.27) — weaker than Lichess where it was marginal
+- R² = 0.070
+
+**Result 7-style selective blindness — DIFFERENT pattern in elite blitz:**
+- Lichess: gap concentrated in forgiving positions (+8.5), demanding positions reversed (−2.5)
+- Chess.com: gap present in BOTH — forgiving +16.3, demanding +23.0
+- Interpretation: time pressure removes the compensatory vigilance that Lichess rapid players deploy in demanding positions
+
+**S-curve — partially replicates:**
+- Gap peaks near parity (0-50cp): +14-16 CPL, decays toward extremes (+8.8 at 200-500cp)
+- Same shape but doesn't reverse at extremes — time pressure prevents "pure calculation" advantage
+
+**Suppressor — does NOT replicate:**
+- Complexity acts as mild confound (−4.4%) in chess.com vs suppressor (+8.8%) in Lichess
+- Chess.com 960 positions have higher complexity_1v2 (27.8 vs 19.6), opposite of Lichess
+- Different direction but small magnitude — complexity is not a major channel in either sample
+
+### Difficulty Rubric (cross-platform, N=968K moves)
+
+Combined Lichess rapid (5 rating tiers: 800-2400+) with Chess.com titled players. X-axis: # good moves within 25cp of best (1 to 5+). Faceted by format/template distance × game phase.
+
+**Key findings from 2×3 grid (opening + middlegame × standard + 960-near + 960-far):**
+
+1. **Opening dose-response**: Lines shift upward Standard → Near-960 → Far-960. Titled players collapse from ~15-20 CPL (standard) to ~40-60 CPL (far-960)
+2. **Middlegame convergence**: All three columns look nearly identical — same slopes, same tier ordering, same CPL levels. Starting position is irrelevant by move 13
+3. **Titled players overlap Lichess 2100+ in middlegame** regardless of starting position — confirming skill comparability and that the opening divergence is real template loss, not a sample artifact
+4. **Satisficing signal**: Uptick at n_good=5+ in some 960 cells — when many moves look good, players stop optimizing
+
+**Normalized version** (CPL / player's standard opening baseline):
+- Standard opening: all tiers cluster near 1.0x (by construction)
+- 960 opening: tier ordering INVERTS — experts show highest ratios (1.5-2.5x), amateurs ~1.0x
+- Middlegame: ratios compress back, all tiers similar (~1.5x)
+- **Interpretation**: experts lose more proportionally — the more template capital invested, the larger the proportional loss when templates are removed
+
+**Plots:** `plots/difficulty_rubric_td_phase.png` (raw CPL) and `plots/difficulty_rubric_normalized.png` (normalized)
 
 > [!note] Evolving
-> Based on ~30% of chess.com data. Engine analysis still in progress. Piece-level estimates will continue to stabilize.
+> Chess.com engine analysis ~20% complete for 960 games. MultiPV complexity: 79.5K positions at depth 13.0 (matching Lichess). Anti-calibration and complexity replications are preliminary but significant.
 
 ## Result 13: Expertise Gradient — Template Dependency Is Not Outgrown
 

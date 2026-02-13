@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "847b95a9cb705aea",
+        "id": "e1414951487a0ea2",
         "type": "tabs",
         "children": [
           {
-            "id": "aa2d90fd3fa037b0",
+            "id": "9f0cd2e3ed68beef",
             "type": "leaf",
             "state": {
               "type": "graph",
@@ -179,8 +179,11 @@
       "bases:Neue Base erstellen": false
     }
   },
-  "active": "aa2d90fd3fa037b0",
+  "active": "9f0cd2e3ed68beef",
   "lastOpenFiles": [
+    "Unbenannt 1.canvas",
+    "Unbenannt.canvas",
+    "aoeFamiliarity Project/aoeFamiliarity Project.md",
     "Research Open Ends.md",
     "Skill Decomposition — Cross-Project Bridge.md",
     "Chess960 Project/Two-Rating Decomposition.md",

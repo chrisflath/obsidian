@@ -50,42 +50,8 @@ This is a strong specificity test: prep capital should only matter where templat
 | PGN median | +0.101*** |
 | PGN first-observed | +0.029*** |
 
-## Chess.com Elite Replication (N=5,182 games, 252 players)
+See also: [[Research Design]], [[Key Results]], [[Random Slopes & BLUPs]], [[Skill Decomposition — Cross-Project Bridge]]
 
-Adapted for chess.com Freestyle Friday (960 blitz 3+1) vs Titled Tuesday (standard blitz 3+1).
-
-### Theta3 Range Restriction
-
-Chess.com R_std SD=240 vs Lichess SD=435 (1.8x less variance). The elite sample is too homogeneous in standard skill for between-player theta3 detection.
-
-| Model | theta3 | p |
-|-------|--------|---|
-| API ratings (R_std from `/stats`) | -0.004 | 0.60 (NULL) |
-| In-game ratings (WhiteElo/BlackElo) | +0.019 | 0.034* |
-| Prep rent (R_std - R_960) | +0.006 | 0.12 (directional) |
-
-> [!important] Partial replication
-> theta3 is null with API ratings due to range restriction. Using in-game ratings (which vary game-to-game) recovers a significant positive interaction (+0.019*, p=0.034). The prep rent correlation is directionally correct but underpowered.
-
-### Phase Gradient (chess.com)
-
-| Phase | theta4 (R_960 × 960) | p |
-|-------|----------------------|---|
-| Opening (1-12) | n.s. | — |
-| Middlegame (13-25) | -0.030 | ** |
-| Endgame (26+) | -0.060 | ** |
-
-The chess.com phase gradient is inverted vs Lichess — theta4 (960 rating advantage in 960) strengthens in later phases. This may reflect elite 960 specialists having middlegame/endgame edges, while the opening is equalized by Freestyle Friday experience.
-
-### Format Gap
-
-| | Chess.com | Lichess |
-|--|-----------|---------|
-| β (format gap) | +0.290*** | +0.176*** |
-| Ratio | 1.65x larger | baseline |
-
-See also: [[Research Design]], [[Key Results]], [[Random Slopes & BLUPs]], [[Skill Decomposition — Cross-Project Bridge]], [[Gelbach Decomposition]]
-
-**Script**: `analysis/two_rating_decomposition.py` (adapted inline for chess.com)
+**Script**: `analysis/two_rating_decomposition.py`
 
 #chess960 #methods #identification
