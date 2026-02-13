@@ -172,18 +172,24 @@ Dividing each tier's 960 CPL by Q3's sloped 960 regression line (CPL = 46.0 + 0.
 
 **Plot:** `plots/publication/panel_b_quintiles_norm.pdf`
 
-### Phase Specificity: Template Capital Is Purely an Opening Phenomenon
+### Phase Facets: Template Loss Is a Transient Shock, Not a Persistent Handicap
 
 Faceting the Q3-normalized plot by game phase (opening 1–12, middlegame 13–25, endgame 26+) reveals:
 
-- **Opening**: Strong convergence — Q1 slopes down (−0.011/unit), Q5/Titled slope up (+0.005/unit). Lines fan inward. Template capital compresses expertise.
-- **Middlegame**: Lines are nearly **parallel** — convergence disappears. Skill spread is preserved but template distance no longer differentially compresses expertise. Positions have normalized by move 13.
+- **Opening**: Strong convergence — Q1 slopes down (−0.011/unit), Q5/Titled slope up (+0.005/unit). Lines fan inward. Template distance differentially compresses expertise.
+- **Middlegame**: Lines are nearly **parallel** — convergence disappears. Skill spread is preserved; template distance no longer differentially compresses expertise. Positions have normalized by move 13.
 - **Endgame**: Also parallel, wider CIs. No systematic convergence.
 
-> [!important] Greater starting permutation front-loads its effect into the opening
-> By middlegame, both sides have developed and the opening chaos has settled — the starting arrangement no longer differentially affects play. The "damage" from template absence is entirely absorbed in the first 12 moves. This is the visual equivalent of θ3's phase gradient (+0.050*** opening → n.s. middlegame/endgame), now confirmed from a third independent method.
+> [!important] Template loss is a transient shock — expertise compression does not cascade
+> The non-tautological finding is NOT that templates matter in the opening (definitional), but that the expertise compression **does not propagate**. One could easily expect confusion in the opening to cascade — worse positions → harder middlegame decisions → compounding skill compression throughout the game. But it doesn't. By move 13, the expertise spread snaps back to standard-chess levels. The disruption is absorbed, not compounded. This is a claim about the *dynamics* of expertise under novelty, not a tautology about where templates apply.
 
-**Key identification asset:** The continuous variation in template distance (0–20 index) across 960 starting positions provides a **dose-response gradient** within the treatment group. This is not just 960-vs-standard (binary), but a continuous measure of *how much* templates are disrupted. The phase facets show this gradient only operates in the opening — exactly where templates are deployed.
+**Key identification asset — the dose-response gradient:** The continuous variation in template distance (0–20 index) across 960 starting positions is the paper's strongest identification feature. Most 960 studies treat the format as binary (standard vs 960). The continuous measure provides:
+1. **Within-960 graded transfer** — the slope, not just the intercept
+2. **Expertise × displacement interaction** — convergence as a function of disruption dose
+3. **Phase specificity** — the gradient only compresses expertise in the opening
+4. **Piece-level decomposition** — which pieces drive the gradient (Gelbach channels)
+
+This turns a natural experiment into something approaching a **dose-response design** — the strongest form of evidence for a causal channel, short of random assignment (which 960 actually provides, since starting positions are drawn uniformly).
 
 **Plot:** `plots/publication/panel_b_quintiles_norm_phases.pdf`
 
