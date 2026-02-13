@@ -100,6 +100,20 @@ Using Freestyle Friday (960 blitz 3+1) vs Titled Tuesday (standard blitz 3+1), N
 - **Template distance gradient** replicates within 960
 - **Theta3 (prep capital interaction)**: not significant in chess.com elite (p=0.60) due to range restriction (R_std SD=240 vs Lichess SD=435). In-game rating interaction is significant (+0.019, p=0.034)
 
+### Anti-Calibration Replicates (chess.com elite)
+
+With N=13,653 moves (35 paired players, partial MultiPV coverage):
+
+| | Standard | Chess960 | Lichess reference |
+|---|---|---|---|
+| Mean within-player r(share_good, log_time) | **−0.057** | **+0.048** | −0.035 / +0.046 |
+| Paired t | **−3.03** (p=0.005) | | −11.8 (p<.0001) |
+
+- Sign flip replicates: standard players correctly allocate less time to easy positions; 960 players are anti-calibrated
+- Effect **stronger** in elite blitz than Lichess rapid — time pressure amplifies miscalibration
+- Aggregate: std r=−0.066, 960 r=+0.065 (both p<.0001)
+
+
 > [!note] Evolving
 > Based on ~30% of chess.com data. Engine analysis still in progress. Piece-level estimates will continue to stabilize.
 
