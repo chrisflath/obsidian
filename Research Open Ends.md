@@ -20,6 +20,7 @@ Central tracker for open questions, planned analyses, and cross-project opportun
 - [ ] **Formalize fig1/fig2 into publication_figures.py** — Current dev scripts in /tmp; need to integrate into the main publication script
 
 ### Writing
+- [x] **nature_short.tex reviewer feedback** — DONE. Fixed sample size (74,892), moves 1-12 throughout (2-12 as robustness), log transform rationale, raw CPL note, Figure 1 caption for single-panel hero, Figure 2 swapped to theta3/theta4 phase plot, moderated "reasoning alone" language. Committed and pushed 2026-02-15.
 - [ ] **Reference-point clarity section** — Integrate S-curve, spline, domain split, depth-free validity into paper draft
 - [ ] **Gelbach narrative** — 85% residual is the headline; piece displacement channels provide face validity
 - [ ] **Update paper Figure 2 caption** — newmain.tex still references old theta3-only bar chart; needs caption for paired coefficient plot
@@ -51,6 +52,6 @@ Central tracker for open questions, planned analyses, and cross-project opportun
 
 ---
 
-*Updated: 2026-02-12*
+*Updated: 2026-02-15*
 
 #open-ends #todos #cross-project
