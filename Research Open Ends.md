@@ -12,14 +12,17 @@ Central tracker for open questions, planned analyses, and cross-project opportun
 - [ ] **Clean up main DB** — Remove `chesscom_tournaments`, `chesscom_participation` tables and `source='chesscom'` player rows from `chess960.db` (deferred while complexity analyzer holds lock)
 
 ### Analysis Open Ends
-- [ ] **Wire finalized Panel B into hero figure** — `scripts/publication_figures.py`, template distance gradient with scatter dots and vignettes
+- [x] **Wire finalized Panel B into hero figure** — DONE. Single-panel Fig 1 with 3 skill tiers, 11 vignettes, raw CPL, template distance index. Dev script at `/tmp/fig1_raw6.py`, final at `fig1_dev_P.pdf`.
+- [x] **Fig 2: theta3/theta4 paired coefficient plot** — DONE. Paired dot-and-whisker showing prep capital decays (θ3: +0.056 → +0.026) while general skill transfers uniformly (θ4: ~-0.05 across all phases). Dev script at `/tmp/fig2_dev3.py`, final at `fig2_dev_C.pdf`.
 - [ ] **Chess.com replication** — Once FF data is collected: error composition, S-curve, anti-calibration, template distance gradient, two-rating decomposition (θ3)
 - [ ] **Within-pool filtering** — At analysis time, prioritize games where both players are in the FF pool for controlled opponent quality
 - [ ] **Expertise × time scale** — Does the template disruption show up more strongly in blitz (FF, 3+1) than rapid (Lichess, 10+0) among strong players? System 1 vs System 2 access
+- [ ] **Formalize fig1/fig2 into publication_figures.py** — Current dev scripts in /tmp; need to integrate into the main publication script
 
 ### Writing
 - [ ] **Reference-point clarity section** — Integrate S-curve, spline, domain split, depth-free validity into paper draft
 - [ ] **Gelbach narrative** — 85% residual is the headline; piece displacement channels provide face validity
+- [ ] **Update paper Figure 2 caption** — newmain.tex still references old theta3-only bar chart; needs caption for paired coefficient plot
 
 ---
 
