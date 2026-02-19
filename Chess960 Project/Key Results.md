@@ -6,21 +6,26 @@ Players perform significantly worse in Chess960 openings (moves 1-12), and this 
 
 ## Result 1: Format Gap
 
-`mean(log(CPL+1))` is **+0.18** higher in Chess960 (p < 0.001).
+`mean(log(CPL+1))` is **+0.15** higher in Chess960 (p < 0.001, N=106,289 games, 438 players).
 
-After [[Start-Position Fixed Effects]]: gap = +0.10 (41% reduction, 59% survives).
+### ⚠️ SP Fixed Effects — UNINFORMATIVE (identification problem, discovered 2026-02-19)
+
+The FWL/SP FE specification is near-perfectly collinear: all standard games map to SP=518, so `is_960` loses 99.84% of its variance after demeaning. The format coefficient is identified from only ~39 chess960 games that happened to draw SP 518. Bootstrap analysis (200 resamples) shows p<0.05 in only 10% of draws (median p=0.27). The earlier documented result (+0.1034*, 41% reduction) was a statistical fluke.
+
+**Use the Gelbach decomposition instead** — it uses continuous position features (piece displacements, structural indicators) and is well-identified. Gelbach: 35.7% of gap explained by observable position features, 64.3% residual = pure template-absence effect.
 
 ## Result 2: Prep Capital Interaction (theta3) & General Skill (theta4)
 
-From [[Two-Rating Decomposition]]:
-- theta3 = **+0.056****** — standard rating is less predictive in Chess960
-- theta4 = **-0.058****** — 960 rating becomes more predictive in its own format
+From [[Two-Rating Decomposition]] (N=106,289 games, 438 players, verified 2026-02-19):
+- theta3 = **+0.048****** — standard rating is less predictive in Chess960
+- theta4 = **-0.052****** — 960 rating becomes more predictive in its own format
 - **Asymmetric phase dynamics** (mixed-effects, N=80K/66K/25K by phase):
-  - theta3: +0.056*** (opening) → +0.036*** (middlegame) → +0.026 n.s. (endgame) — **prep capital decays**
-  - theta4: -0.058*** (opening) → -0.039*** (middlegame) → -0.043 n.s. (endgame) — **general skill transfers uniformly**
+  - theta3: +0.058*** (opening) → +0.020** (middlegame) → +0.028 n.s. (endgame) — **prep capital decays**
+  - theta4: stable at ~-0.05 across all phases — **general skill transfers uniformly**
 - Key insight: preparation advantage is phase-specific (opening); general reasoning skill transfers across all phases
-- Endgame n.s. for both coefficients is likely a power issue (N=25K vs 80K in opening)
-- Consistent across rating sources (API, PGN median, PGN first-observed)
+- With larger sample, middlegame theta3 is now significant (p=0.002) — prep capital effect extends beyond opening
+- Endgame n.s. likely a power issue (N=25K vs 80K in opening)
+- PGN median theta3 = +0.037*** (replicates)
 
 ## Result 3: Gelbach Channels
 
@@ -32,9 +37,12 @@ From [[Gelbach Decomposition]]:
 
 ## Result 4: Player Heterogeneity
 
-From [[Random Slopes & BLUPs]]:
-- Players with high prep rent (R_std >> R_960) have the largest format gaps (r = +0.229***)
-- 960 specialists and diverse-repertoire players show smaller gaps
+From [[Random Slopes & BLUPs]] (386 players, verified 2026-02-19):
+- Players with high prep rent (R_std >> R_960) have the largest format gaps (r = +0.151**, was +0.229)
+- 960 specialists show smaller gaps (r = -0.211***, was -0.287)
+- eco_hhi strengthened (r = -0.312***, was -0.215)
+- experience_ratio **lost significance** (r = -0.017 n.s., was -0.146*) — marginal in original sample
+- Core pattern holds: prep rent and specialist ratio remain significant predictors
 
 ## Result 5: Complexity Is Not a Confound
 

@@ -18,6 +18,8 @@ Central tracker for open questions, planned analyses, and cross-project opportun
 - [ ] **Within-pool filtering** — At analysis time, prioritize games where both players are in the FF pool for controlled opponent quality
 - [ ] **Expertise × time scale** — Does the template disruption show up more strongly in blitz (FF, 3+1) than rapid (Lichess, 10+0) among strong players? System 1 vs System 2 access
 - [ ] **Formalize fig1/fig2 into publication_figures.py** — Current dev scripts in /tmp; need to integrate into the main publication script
+- [ ] **Regenerate all figures from current sample** — Sample grew from 70K/306 to 106K/438. Figures were generated from older data. Need to re-run fig1 (hero), fig2 (theta3/theta4 phase), fig3, and verify all coefficients match paper text. Phase-specific θ3 shifted: middlegame now significant (p=0.002).
+- [ ] **Re-run extended Gelbach from publication_figures.py** — Simpler Gelbach (two_rating_decomposition.py) shows 25.2% explained (was 35.7%). Need to verify the extended Gelbach (piece-level + clock + matchmaking) with current sample.
 
 ### Writing
 - [x] **nature_short.tex reviewer feedback** — DONE. Fixed sample size (74,892), moves 1-12 throughout (2-12 as robustness), log transform rationale, raw CPL note, Figure 1 caption for single-panel hero, Figure 2 swapped to theta3/theta4 phase plot, moderated "reasoning alone" language. Committed and pushed 2026-02-15.
@@ -52,6 +54,6 @@ Central tracker for open questions, planned analyses, and cross-project opportun
 
 ---
 
-*Updated: 2026-02-15*
+*Updated: 2026-02-19*
 
 #open-ends #todos #cross-project
